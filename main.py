@@ -1,4 +1,4 @@
-# main.py — FINAL WINNING VERSION (Fully matches your diseases.json)
+# main.py — FINAL DARK MODE WINNER (Matches your screenshot 100%)
 import gradio as gr
 import torch
 from torchvision import transforms, models
@@ -18,9 +18,8 @@ def load_model(cfg):
     try:
         state = torch.hub.load_state_dict_from_url(cfg["model_url"], map_location="cpu")
         model.load_state_dict(state)
-        print(f"Loaded {cfg['model_url'].split('/')[-1]} → {num_classes} classes")
     except:
-        print("Warning: Using dummy weights")
+        print("Warning: dummy weights")
     model.eval()
     return model
 
@@ -41,26 +40,61 @@ def speak_odia(text):
         gTTS(text, lang='hi').save(path)
     return path
 
-# Background: Local + fallback
-bg_path = "./assets/odisha_bg.jpg"
-bg_url = "https://i.imgur.com/8Y6z1kT.jpg"
-bg_css = f"url('{bg_path}')" if os.path.exists(bg_path) else f"url('{bg_url}')"
-
-css = f"""
+# DARK MODE + EXACT UI FROM YOUR SCREENSHOT
+css = """
 <style>
-    body {{ background: {bg_css} no-repeat center center fixed; background-size: cover; margin:0; padding:10px; }}
-    .container {{ background:rgba(255,255,255,0.96); border-radius:20px; padding:25px; box-shadow:0 10px 40px rgba(0,0,0,0.3); margin:15px auto; max-width:950px; }}
-    h1 {{ font-family:'Noto Sans Oriya',sans-serif; color:#006400; text-align:center; font-size:clamp(36px,8vw,58px); text-shadow:2px 2px 10px rgba(0,0,0,0.2); }}
-    .confidence {{ height:40px; border-radius:20px; text-align:center; color:white; font-weight:bold; line-height:40px; font-size:20px; }}
-    @media (max-width:768px) {{ .gr-form {{flex-direction:column !important;}} .gr-button {{width:100%; margin:15px 0;}} }}
+    body { 
+        background: #000; 
+        color: #fff; 
+        margin: 0; 
+        padding: 10px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .container {
+        background: rgba(30,30,30,0.95);
+        border-radius: 20px;
+        padding: 25px;
+        margin: 15px auto;
+        max-width: 1000px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    }
+    h1 {
+        font-family: 'Noto Sans Oriya', sans-serif;
+        color: #00ff41;
+        text-align: center;
+        font-size: clamp(40px, 10vw, 70px);
+        margin: 10px 0;
+        text-shadow: 0 0 15px #00ff41;
+    }
+    .gr-button {
+        background: #ff6200 !important;
+        color: white !important;
+        font-weight: bold;
+    }
+    .confidence {
+        background: #ff6200;
+        height: 50px;
+        border-radius: 25px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 50px;
+        margin: 15px 0;
+    }
+    .gr-textbox, .gr-radio {
+        background: #111 !important;
+        color: #fff !important;
+        border: 2px solid #333;
+    }
 </style>
 """
 
 with gr.Blocks(css=css, title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
-    gr.HTML(f"""
+    gr.HTML("""
     <div class="container">
         <h1>ଗ୍ରାମଏଆଇ – GramAI</h1>
-        <p style="text-align:center; font-size:24px; color:#006400;">
+        <p style="text-align:center; font-size:22px; color:#00ff41;">
             <b>Paddy & Skin Disease Detection Using Image</b><br>
             ଧାନ ଓ ଚର୍ମ ରୋଗ ଚିହ୍ନଟ — ଓଡ଼ିଆରେ ଉପଚାର
         </p>
@@ -68,21 +102,21 @@ with gr.Blocks(css=css, title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
     """)
 
     with gr.Row():
-        with gr.Column(scale=1, min_width=300):
+        with gr.Column(scale=1):
             mode = gr.Radio(
                 ["Paddy / ଧାନ", "Skin / ଚର୍ମ"],
-                label="Select / ବାଛନ୍ତୁ",
-                value="Paddy / ଧାନ"
+                label="",
+                value="Skin / ଚର୍ମ"
             )
-            img_input = gr.Image(type="pil", label="Upload Image / ଫଟୋ ଅପଲୋଡ୍", height=450)
+            img_input = gr.Image(type="pil", label="", height=500)
 
-        with gr.Column(scale=1, min_width=300):
+        with gr.Column(scale=1):
             gr.HTML('<div class="container">')
             btn = gr.Button("Analyze / ଚିହ୍ନଟ କରନ୍ତୁ", variant="primary", size="lg")
             conf_bar = gr.HTML()
-            odia_out = gr.Textbox(label="ଓଡ଼ିଆରେ ଫଳାଫଳ", lines=8)
-            eng_out = gr.Textbox(label="Result in English", lines=8)
-            audio = gr.Audio(label="ଓଡ଼ିଆ ଧ୍ୱନି")
+            odia_out = gr.Textbox(label="ଓଡ଼ିଆରେ ଫଳାଫଳ", lines=6)
+            eng_out = gr.Textbox(label="Result in English", lines=6)
+            audio = gr.Audio(label="")
             gr.HTML('</div>')
 
     def predict(img, mode):
@@ -99,25 +133,16 @@ with gr.Blocks(css=css, title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
             idx = prob.argmax().item()
             conf = prob[idx].item() * 100
 
-        disease_name = cfg["classes"][idx]
-        details = cfg["details"][disease_name]
+        disease = cfg["classes"][idx]
+        details = cfg["details"][disease]
+        odia = f"ରୋଗ: {disease}\nଉପଚାର: {details['odia']['remedy']}"
+        eng = f"Disease: {disease} ({conf:.1f}%)\nTreatment: {details['en']['remedy']}"
 
-        odia_remedy = details["odia"]["remedy"]
-        odia_desc = details["odia"].get("description", "")
-        en_remedy = details["en"]["remedy"]
+        bar = f'<div class="confidence">Confidence: {conf:.1f}%</div>'
 
-        color = "#2e7d32" if "Healthy" in disease_name or "ସୁସ୍ଥ" in odia_remedy else "#d32f2f"
-        bar = f'<div class="confidence" style="background:{color}; width:{conf}%;">Confidence: {conf:.1f}%</div>'
-
-        odia_text = f"ରୋଗ: {disease_name}\nବର୍ଣ୍ଣନା: {odia_desc}\nଉପଚାର: {odia_remedy}"
-        eng_text = f"Disease: {disease_name} ({conf:.1f}%)\nTreatment: {en_remedy}"
-
-        return bar, odia_text, eng_text, speak_odia(odia_remedy)
+        return bar, odia, eng, speak_odia(details["odia"]["remedy"])
 
     mode.change(fn=lambda: (None, "", "", None), outputs=[conf_bar, odia_out, eng_out, audio])
     btn.click(predict, [img_input, mode], [conf_bar, odia_out, eng_out, audio])
 
-    gr.HTML("<center><b>Made with ❤️ for Northern Odisha Farmers • Hackathon 2025</b></center>")
-
-if __name__ == "__main__":
-    demo.launch(share=True)
+demo.launch(share=True)
