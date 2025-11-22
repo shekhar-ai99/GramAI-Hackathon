@@ -1,0 +1,29 @@
+/* css/style.css — FINAL 100% WORKING BACKGROUND */
+.gradio-container, html, body {
+    background: url('https://i.postimg.cc/B6Xj8tk7/odisha-bg.jpg') no-repeat center center fixed !important;
+    background-size: cover !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+:root { --bg: transparent !important; --bg-dark: transparent !important; }
+
+.container {
+    
+    backdrop-filter: blur(5px);
+    border-radius: 24px;
+   
+ 
+    border: 1px solid rgba(0, 255, 100, 0.25);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    background:#7c80aad9;
+}
+
+.title-or { font-family: 'Noto Sans Oriya', sans-serif; font-size: clamp(48px, 11vw, 78px); color: #00ff62; text-shadow: 0 0 25px #00ff62; margin: 0; line-height: 1; }
+.title-en { font-size: clamp(28px, 6vw, 42px); color: #00ff62 !important; margin: 8px 0; opacity: 0.9; }
+.subtitle { font-size: 26px; color: #e0ff9e !important; text-align: center; line-height: 1.5; margin: 10px 0 20px 0; }
+
+.gr-button { background: linear-gradient(45deg, #ff6200, #ff8c00) !important; border: none !important; font-weight: bold; padding: 16px; border-radius: 16px; box-shadow: 0 8px 25px rgba(255, 98, 0, 0.5); }
+.confidence { background: linear-gradient(90deg, #ff6200, #ff8c00); height: 60px; border-radius: 30px; text-align: center; color: white ; font-weight: bold; font-size: 28px; line-height: 60px; margin: 20px 0; }
+.gr-textbox, textarea { background: rgba(0,0,0,0.5) !important; color: #fff !important; border: 1px solid #00ff62; font-size: 18px; }

@@ -1,0 +1,26 @@
+# Ignore macOS stuff
+.DS_Store
+
+# Ignore Python venv
+venv/
+venv/*
+*/venv/
+
+# Ignore pycache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Gradio temp files
+tmp/
+outputs/
+logs/
+
+# Ignore VS Code settings (optional)
+.vscode/
+
+# Ignore Python build artifacts
+build/
+dist/
+*.egg-info/
