@@ -40,57 +40,51 @@ def speak_odia(text):
         gTTS(text, lang='hi').save(path)
     return path
 
-# DARK MODE + EXACT UI FROM YOUR SCREENSHOT
-# THIS IS THE ONLY THING YOU NEED TO CHANGE
 css = """
 <style>
-    /* This forces background on the actual Gradio container */
-    .gradio-container {
+    /* FULL Odisha paddy background — visible everywhere */
+    .gradio-container, html, body {
         background: url('https://i.postimg.cc/B6Xj8tk7/odisha-bg.jpg') no-repeat center center fixed !important;
         background-size: cover !important;
-        min-height: 100vh;
+        min-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
-    body { 
-        background: transparent !important;
-        margin: 0; 
-        padding: 0;
-    }
+    :root { --bg: transparent !important; --bg-dark: transparent !important; }
+
+    /* Semi-transparent dark cards — paddy field shows through */
     .container {
-        background: rgba(30,30,30,0.95);
-        border-radius: 20px;
-        padding: 25px;
-        margin: 15px auto;
+        background: rgba(20, 20, 40, 0.88) !important;   /* Dark blue-purple, 88% opacity */
+        backdrop-filter: blur(8px);                     /* Beautiful glass effect */
+        border: 1px solid rgba(0, 255, 100, 0.3);
+        border-radius: 24px;
+        padding: 30px;
+        margin: 20px auto;
         max-width: 1000px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
     }
     h1 {
-        font-family: 'Noto Sans Oriya', sans-serif;
-        color: #00ff41;
-        text-align: center;
-        font-size: clamp(40px, 10vw, 70px);
-        margin: 10px 0;
-        text-shadow: 0 0 15px #00ff41;
+        color: #00ff62 !important;
+        text-shadow: 0 0 20px #00ff62;
+        font-size: clamp(42px, 10vw, 72px);
     }
     .gr-button {
-        background: #ff6200 !important;
-        color: white !important;
+        background: linear-gradient(45deg, #ff6200, #ff8c00) !important;
+        border: none !important;
         font-weight: bold;
+        box-shadow: 0 5px 15px rgba(255, 98, 0, 0.5);
     }
     .confidence {
-        background: #ff6200;
-        height: 50px;
-        border-radius: 25px;
-        text-align: center;
-        color: white;
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 50px;
-        margin: 15px 0;
+        background: linear-gradient(90deg, #ff6200, #ff8c00);
+        height: 55px;
+        border-radius: 30px;
+        font-size: 26px;
+        box-shadow: 0 5px 20px rgba(255, 98, 0, 0.6);
     }
     .gr-textbox, .gr-radio {
-        background: #111 !important;
+        background: rgba(10, 10, 30, 0.9) !important;
         color: #fff !important;
-        border: 2px solid #333;
+        border: 1px solid #00ff62;
     }
 </style>
 """
