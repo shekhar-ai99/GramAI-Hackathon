@@ -44,8 +44,8 @@ def speak_odia(text):
 css = """
 <style>
     body { 
-        background: #000; 
-        color: #fff; 
+        background: url('https://i.postimg.cc/B6Xj8tk7/odisha-bg.jpg') no-repeat center center fixed !important;
+        background-size: cover !important;
         margin: 0; 
         padding: 10px;
         font-family: 'Segoe UI', sans-serif;
