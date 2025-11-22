@@ -1,0 +1,59 @@
+/* enhanced_gradio.css — gradio.live wrapper approach (bg-wrapper) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@400;600&display=swap');
+
+.bg-wrapper {
+  background: url('/mnt/data/odisha_bg.jpg') no-repeat center center fixed !important;
+  background-size: cover !important;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Noto Sans Oriya', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 20px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+}
+
+.brand { display:flex; gap:10px; align-items:center; }
+.logo { width:48px; height:48px; border-radius:8px; object-fit:cover; }
+.title { font-size:22px; font-weight:700; color:#ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.tag { font-size:12px; color:#e6ffe9; opacity:0.85; }
+
+.card {
+  max-width:1000px;
+  margin: 18px auto;
+  display:flex;
+  gap:18px;
+  background: rgba(10,10,12,0.55);
+  border-radius:16px;
+  padding:18px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+#analyze-btn {
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  background: linear-gradient(90deg,#ef4444,#f97316);
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+#analyze-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(249,115,22,0.18); }
+
+.gauge { display:flex; justify-content:center; align-items:center; margin-bottom:8px; }
+.circle { transition: stroke-dasharray 0.6s ease; }
+
+/* textboxes styling to fit dark card */
+.gr-textbox, textarea { background: rgba(0,0,0,0.15) !important; color: #fff !important; border:1px solid rgba(255,255,255,0.06) !important; }
+
+.footer { text-align:center; margin:16px auto; color:#fff; opacity:0.9; font-weight:600; }
