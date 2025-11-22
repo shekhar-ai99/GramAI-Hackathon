@@ -41,14 +41,19 @@ def speak_odia(text):
     return path
 
 # DARK MODE + EXACT UI FROM YOUR SCREENSHOT
+# THIS IS THE ONLY THING YOU NEED TO CHANGE
 css = """
 <style>
-    body { 
+    /* This forces background on the actual Gradio container */
+    .gradio-container {
         background: url('https://i.postimg.cc/B6Xj8tk7/odisha-bg.jpg') no-repeat center center fixed !important;
         background-size: cover !important;
+        min-height: 100vh;
+    }
+    body { 
+        background: transparent !important;
         margin: 0; 
-        padding: 10px;
-        font-family: 'Segoe UI', sans-serif;
+        padding: 0;
     }
     .container {
         background: rgba(30,30,30,0.95);
@@ -89,7 +94,6 @@ css = """
     }
 </style>
 """
-
 with gr.Blocks(css=css, title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
     gr.HTML("""
     <div class="container">
