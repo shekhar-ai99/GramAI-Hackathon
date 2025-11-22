@@ -8,7 +8,7 @@ import os
 # 1) LOCAL → 2) GITHUB RAW → 3) HUGGINGFACE fallback
 # ----------------------------------------------------
 LOCAL_PATH = "models/skin_model.pth"
-GITHUB_URL = "https://raw.githubusercontent.com/shekhar-ai99/GramAI-Models/main/skin_model.pth"
+GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/blob/main/models/skin_model.pth"
 HUGGINGFACE_URL = "https://huggingface.co/spaces/ahmedshahriar/Skin_Disease/resolve/main/skin_model.pth"
 
 # ----------------------------------------------------
