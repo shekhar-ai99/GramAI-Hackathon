@@ -1,0 +1,26 @@
+.bg-wrapper {
+    background: url('https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/assets/odisha_bg.jpg')
+                no-repeat center center fixed !important;
+    background-size: cover !important;
+    width: 100%;
+    min-height: 100vh;
+    padding: 25px;
+}
+
+.card {
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    margin-bottom: 20px;
+}
+
+.conf-bar {
+    height: 40px;
+    border-radius: 12px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+}
