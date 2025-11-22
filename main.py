@@ -40,12 +40,40 @@ def speak_odia(text):
     gTTS(text, lang='or', slow=False).save(path)
     return path
 
-css = """<style>
-    body { background: url('./assets/odisha_bg.jpg') no-repeat center center fixed; background-size: cover; margin:0; padding:10px; }
-    .container { background:rgba(255,255,255,0.96); border-radius:20px; padding:25px; box-shadow:0 10px 40px rgba(0,0,0,0.3); margin:15px auto; max-width:950px; }
-    h1 { font-family:'Noto Sans Oriya',sans-serif; color:#006400; text-align:center; font-size:clamp(36px,8vw,58px); }
-    .confidence { height:40px; border-radius:20px; text-align:center; color:white; font-weight:bold; line-height:40px; font-size:20px; }
-</style>"""
+css = """
+<style>
+    body { 
+        background: url('https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/assets/odisha_bg.jpg') 
+        no-repeat center center fixed; 
+        background-size: cover; 
+        margin:0; padding:10px;
+    }
+    .container { 
+        background:rgba(255,255,255,0.96); 
+        border-radius:20px; 
+        padding:25px; 
+        box-shadow:0 10px 40px rgba(0,0,0,0.3); 
+        margin:15px auto; 
+        max-width:950px;
+    }
+    h1 { 
+        font-family:'Noto Sans Oriya',sans-serif; 
+        color:#006400; 
+        text-align:center; 
+        font-size:clamp(36px,8vw,58px); 
+    }
+    .confidence { 
+        height:40px; 
+        border-radius:20px; 
+        text-align:center; 
+        color:white; 
+        font-weight:bold; 
+        line-height:40px; 
+        font-size:20px; 
+    }
+</style>
+"""
+
 
 with gr.Blocks(css=css, title="GramAI") as demo:
     gr.HTML('<div class="container"><h1>ଗ୍ରାମଏଆଇ – GramAI</h1><p style="text-align:center; font-size:24px; color:#006400;"><b>Paddy & Skin Disease Detection Using Image</b><br>ଧାନ ଓ ଚର୍ମ ରୋଗ ଚିହ୍ନଟ — ଓଡ଼ିଆରେ ଉପଚାର</p></div>')
