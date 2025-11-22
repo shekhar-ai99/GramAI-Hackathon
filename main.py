@@ -75,8 +75,14 @@ with gr.Blocks(css=css, title="GramAI") as demo:
             conf = prob[idx].item() * 100
 
         disease = cfg["classes"][idx]
-        odia_remedy = cfg["remedies_odia"][idx]
-        en_remedy = cfg["remedies_en"][idx]
+
+        # dynamically pull details based on disease name
+        details = cfg["details"].get(disease, {})
+
+        odia_remedy = details.get("odia", {}).get("remedy", "ଉପଚାର ମିଳିଲା ନାହିଁ")
+        en_remedy   = details.get("en",   {}).get("remedy", "Treatment not available")
+
+
 
         color = "#2e7d32" if "Healthy" in disease or "ସୁସ୍ଥ" in odia_remedy else "#d32f2f"
         bar = f'<div class="confidence" style="background:{color}; width:{conf}%;">Confidence: {conf:.1f}%</div>'
