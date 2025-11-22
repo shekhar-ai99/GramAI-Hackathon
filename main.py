@@ -102,5 +102,31 @@ with gr.Blocks(title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
         return bar, odia, eng, speak_odia(details["odia"]["remedy"])
 
     btn.click(predict, [img_input, mode], [conf_bar, odia_out, eng_out, audio])
+    gr.HTML("""
+    <center style="margin-top:40px; margin-bottom:45px;">
+    <div style="
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(4px);
+        padding: 22px 32px;
+        border-radius: 18px;
+        display: inline-block;
+        max-width: 90%;
+        color:#ffffff;
+        font-size:20px;
+        font-weight:600;
+        line-height:1.7;
+        letter-spacing:0.3px;
+        text-shadow:0 0 6px rgba(0,0,0,0.8);
+    ">
+        🌾🩺 <span style="color:#7CFF91;">AI for Health & Agriculture — Empowering Lives, Empowering Farmers</span><br>
+        🚀 Built for <b>Hackathon 2025</b> • Developed at <b>MSCB University, Odisha</b><br><br>
+        👨‍🎓 <b style="color:#7CFF91;">Lead Researcher:</b> Chandra Shekhar Behera  
+        <span style="opacity:0.9">(Research Scholar, MSCB University)</span><br>
+        👨‍🏫 <b style="color:#7CFF91;">Academic Supervisor:</b> Dr. Swarupananda Bissoyi  
+        <span style="opacity:0.9">(Assistant Professor, MSCB University)</span>
+    </div>
+</center>
+""")
+
 
 demo.launch(share=True)
