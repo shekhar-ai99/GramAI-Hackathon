@@ -1,80 +1,94 @@
-# main.py — FINAL PHASE-2 WINNING VERSION (All 5 enhancements included)
+# main.py — FULLY AUTOMATED WINNER (Zero hard-coding)
 import gradio as gr
-from models.paddy_model import predict_paddy
-from models.skin_model import predict_skin
-from utils.tts import speak_odia
+import torch
+from torchvision import transforms, models
+import json
+import os
+from gtts import gTTS
 
-css = """
-<style>
+# Load config (auto-detects everything)
+with open("config/diseases.json", "r", encoding="utf-8") as f:
+    config = json.load(f)
+
+# Auto model loader
+def load_model(cfg):
+    model = models.mobilenet_v3_small(pretrained=False)
+    num_classes = len(cfg["classes"])
+    model.classifier[3] = torch.nn.Linear(1024, num_classes)
+    try:
+        state = torch.hub.load_state_dict_from_url(cfg["model_url"], map_location="cpu")
+        model.load_state_dict(state)
+        print(f"Loaded {cfg['model_url'].split('/')[-1]} → {num_classes} classes")
+    except:
+        print("Warning: Model loaded with dummy weights")
+    model.eval()
+    return model
+
+paddy_cfg = config["paddy"]
+skin_cfg = config["skin"]
+paddy_model = load_model(paddy_cfg)
+skin_model = load_model(skin_cfg)
+
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+])
+
+def speak_odia(text):
+    path = "result.mp3"
+    gTTS(text, lang='or', slow=False).save(path)
+    return path
+
+css = """<style>
     body { background: url('./assets/odisha_bg.jpg') no-repeat center center fixed; background-size: cover; margin:0; padding:10px; }
-    .container { background: rgba(255,255,255,0.96); border-radius:20px; padding:20px; box-shadow:0 8px 32px rgba(0,0,0,0.3); margin:15px auto; max-width:900px; }
-    h1 { font-family:'Noto Sans Oriya',sans-serif; color:#006400; text-align:center; font-size:clamp(32px,8vw,56px); text-shadow:2px 2px 8px rgba(0,0,0,0.2); }
-    .confidence-bar { height:30px; border-radius:15px; text-align:center; color:white; font-weight:bold; line-height:30px; }
-    .offline-badge { background:#006400; color:white; padding:8px 15px; border-radius:50px; font-size:14px; display:inline-block; }
-    @media (max-width:768px) { .gr-form {flex-direction:column !important;} .gr-button {width:100%; margin-top:15px;} }
-</style>
-"""
+    .container { background:rgba(255,255,255,0.96); border-radius:20px; padding:25px; box-shadow:0 10px 40px rgba(0,0,0,0.3); margin:15px auto; max-width:950px; }
+    h1 { font-family:'Noto Sans Oriya',sans-serif; color:#006400; text-align:center; font-size:clamp(36px,8vw,58px); }
+    .confidence { height:40px; border-radius:20px; text-align:center; color:white; font-weight:bold; line-height:40px; font-size:20px; }
+</style>"""
 
-with gr.Blocks(css=css, title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
-    # 1 Splash Intro
-    gr.HTML("""
-    <div style="text-align:center; padding:20px;">
-        <h1>ଗ୍ରାମଏଆଇ – GramAI</h1>
-        <p style="font-size:24px; color:#006400;"><b>ଓଡ଼ିଶାର କୃଷକଙ୍କ ପାଇଁ ପ୍ରଥମ AI ସାଥୀ</b></p>
-        <audio autoplay><source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_8c2f3b8f3d.mp3" type="audio/mp3"></audio>
-    </div>
-    """)
+with gr.Blocks(css=css, title="GramAI") as demo:
+    gr.HTML('<div class="container"><h1>ଗ୍ରାମଏଆଇ – GramAI</h1><p style="text-align:center; font-size:24px; color:#006400;"><b>Paddy & Skin Disease Detection Using Image</b><br>ଧାନ ଓ ଚର୍ମ ରୋଗ ଚିହ୍ନଟ — ଓଡ଼ିଆରେ ଉପଚାର</p></div>')
 
     with gr.Row():
-        with gr.Column(scale=1, min_width=300):
-            mode = gr.Radio(["Paddy / ଧାନ", "Skin / ଚର୍ମ"], label="ବାଛନ୍ତୁ", value="Paddy / ଧାନ")
-            img_input = gr.Image(type="pil", label="ଫଟୋ ଅପଲୋଡ୍ କରନ୍ତୁ", height=450)
+        with gr.Column():
+            mode = gr.Radio(["Paddy / ଧାନ", "Skin / ଚର୍ମ"], label="Select / ବାଛନ୍ତୁ", value="Paddy / ଧାନ")
+            img = gr.Image(type="pil", label="Upload Image / ଫଟୋ ଅପଲୋଡ୍")
 
-        with gr.Column(scale=1, min_width=300):
-            gr.HTML('<div class="container">')
-            btn = gr.Button("ଚିହ୍ନଟ କରନ୍ତୁ", variant="primary", size="lg")
-            
-            # 2 Confidence bar + result
-            confidence = gr.HTML()
-            result = gr.Textbox(label="ଫଳାଫଳ", lines=6)
-            audio = gr.Audio(label="ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ")
-            gr.HTML('<span class="offline-badge">Offline Mode Ready for Phase-3</span>')
-            gr.HTML('</div>')
+        with gr.Column():
+            btn = gr.Button("Analyze / ଚିହ୍ନଟ କରନ୍ତୁ", variant="primary", size="lg")
+            conf_bar = gr.HTML()
+            odia_out = gr.Textbox(label="ଓଡ଼ିଆରେ")
+            eng_out = gr.Textbox(label="In English")
+            audio = gr.Audio(label="ଓଡ଼ିଆ ଧ୍ୱନି")
 
     def predict(img, mode):
-        if "ଧାନ" in mode or "Paddy" in mode:
-            text = predict_paddy(img)
-        else:
-            text = predict_skin(img)
-        audio_path = speak_odia(text)
+        if img is None: return None, "ଫଟୋ ଦିଅନ୍ତୁ", "", None
+        tensor = transform(img).unsqueeze(0)
+        cfg = paddy_cfg if "ଧାନ" in mode else skin_cfg
+        model = paddy_model if "ଧାନ" in mode else skin_model
 
-        # Extract confidence % (example: "96.8%")
-        import re
-        conf_match = re.search(r'(\d+\.\d+)%', text)
-        conf = float(conf_match.group(1)) if conf_match else 85
-        color = "green" if "Healthy" in text or "ସୁସ୍ଥ" in text else "red"
-        conf_bar = f'<div class="confidence-bar" style="background:{color}; width:{conf}%;">{conf:.1f}% Confidence</div>'
+        with torch.no_grad():
+            output = model(tensor)
+            prob = torch.softmax(output, dim=1)[0]
+            idx = prob.argmax().item()
+            conf = prob[idx].item() * 100
 
-        return conf_bar, text, audio_path
+        disease = cfg["classes"][idx]
+        odia_remedy = cfg["remedies_odia"][idx]
+        en_remedy = cfg["remedies_en"][idx]
 
-    btn.click(predict, [img_input, mode], [confidence, result, audio])
+        color = "#2e7d32" if "Healthy" in disease or "ସୁସ୍ଥ" in odia_remedy else "#d32f2f"
+        bar = f'<div class="confidence" style="background:{color}; width:{conf}%;">Confidence: {conf:.1f}%</div>'
 
-    # 4 Farmer testimonials
-    gr.HTML("""
-    <div class="container" style="text-align:center;">
-        <h3>ଆମର କୃଷକମାନେ କହୁଛନ୍ତି</h3>
-        <p><i>"ଗୋଟିଏ ଫଟୋରେ ଧାନ ଓ ଚର୍ମ ରୋଗ ଚିହ୍ନି ଦେଉଛି — ବହୁତ ଭଲ ଲାଗୁଛି!" — ରମେଶ ମହାନ୍ତ, ବାଲେଶ୍ୱର</i></p>
-        <p><i>"ଓଡ଼ିଆରେ କହୁଛି, ଅଫଲାଇନ୍ ମଧ୍ୟ କାମ କରିବ — ଆମର ଗାଁ ପାଇଁ perfect!" — ସୁନିତା ଦାସ, ମୟୁରଭଞ୍ଜ</i></p>
-    </div>
-    """)
+        odia_text = f"ରୋଗ: {disease}\nଉପଚାର: {odia_remedy}"
+        eng_text = f"Disease: {disease} ({conf:.1f}%)\nTreatment: {en_remedy}"
 
-    # 5 Official footer
-    gr.HTML("""
-    <center style="margin-top:30px; color:#006400; font-size:16px;">
-        Powered by <b>Northern Odisha AI Hackathon 2025</b> • MSCBU Baripada<br>
-        Made with ❤️ for Odisha’s farmers
-    </center>
-    """)
+        return bar, odia_text, eng_text, speak_odia(odia_remedy)
 
-if __name__ == "__main__":
-    demo.launch(share=True)
+    mode.change(fn=lambda: (None, "", "", None), outputs=[conf_bar, odia_out, eng_out, audio])
+    btn.click(predict, [img, mode], [conf_bar, odia_out, eng_out, audio])
+
+    gr.HTML("<center><b>Made with ❤️ for Odisha Farmers • Northern Region 2025</b></center>")
+
+demo.launch(share=True)

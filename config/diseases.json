@@ -1,0 +1,42 @@
+{
+  "paddy": {
+    "model_url": "https://huggingface.co/spaces/fffiloni/paddy-disease-classification/resolve/main/paddy_model.pth",
+    "classes": ["Bacterial Leaf Blight", "Brown Spot", "Leaf Blast", "Healthy", "Tungro"],
+    "remedies_odia": [
+      "ଷ୍ଟ୍ରେପ୍ଟୋମାଇସିନ୍ ସ୍ପ୍ରେ କରନ୍ତୁ (2g/10L)",
+      "ପ୍ରୋପିକୋନାଜୋଲ୍ 1ml/ଲିଟର ପାଣିରେ ସ୍ପ୍ରେ କରନ୍ତୁ",
+      "ଟ୍ରାଇସାଇକ୍ଲାଜୋଲ୍ ସ୍ପ୍ରେ କରନ୍ତୁ | ସଂକ୍ରମିତ ପତ୍ର ଜାଳି ଦିଅନ୍ତୁ",
+      "ଆପଣଙ୍କ ଧାନ ବହୁତ ସୁସ୍ଥ ଅଛି!",
+      "ସବୁଜ ପତ୍ର କୀଟ ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ"
+    ],
+    "remedies_en": [
+      "Streptomycin spray (2g/10L water)",
+      "Propiconazole spray (1ml/liter)",
+      "Tricyclazole + burn infected leaves",
+      "Your paddy is perfectly healthy!",
+      "Control green leafhopper"
+    ]
+  },
+  "skin": {
+    "model_url": "https://huggingface.co/spaces/ahmedshahriar/Skin_Disease/resolve/main/skin_model.pth",
+    "classes": ["Acne", "Eczema", "Psoriasis", "Ringworm (Dadru)", "Scabies", "Fungal Infection", "Healthy Skin"],
+    "remedies_517": [
+      "ମୁହଁ ସଫା ରଖନ୍ତୁ | ବେଞ୍ଜୋଇଲ୍ ପେରଅକ୍ସାଇଡ୍ ଲଗାନ୍ତୁ",
+      "ମୋଇଶ୍ଚରାଇଜର ଲଗାନ୍ତୁ | ଡାକ୍ତରଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ",
+      "ଡାକ୍ତରଙ୍କୁ ଦେଖାନ୍ତୁ",
+      "କ୍ଲୋଟ୍ରିମାଜୋଲ୍ କ୍ରିମ୍ ଦିନକୁ 2 ଥର ଲଗାନ୍ତୁ",
+      "ପରମେଥ୍ରିନ୍ ଲୋଶନ + ଡାକ୍ତର ଦେଖାନ୍ତୁ",
+      "କିଟୋକୋନାଜୋଲ୍ କ୍ରିମ୍ ଲଗାନ୍ତୁ",
+      "ଆପଣଙ୍କ ଚର୍ମ ବହୁତ ସୁସ୍ଥ ଅଛି!"
+    ],
+    "remedies_en": [
+      "Keep face clean + Benzoyl peroxide",
+      "Use moisturizer + consult doctor",
+      "Consult dermatologist",
+      "Clotrimazole cream twice daily",
+      "Permethrin lotion + see doctor",
+      "Ketoconazole cream",
+      "Your skin is perfectly healthy!"
+    ]
+  }
+}
