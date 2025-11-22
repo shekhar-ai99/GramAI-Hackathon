@@ -42,11 +42,12 @@ def speak_odia(text):
 
 css = """
 <style>
-    body { 
-        background: url('https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/assets/odisha_bg.jpg') 
-        no-repeat center center fixed; 
-        background-size: cover; 
-        margin:0; padding:10px;
+    body {
+        background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBk...pKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi')
+        no-repeat center center fixed;
+        background-size: cover;
+        margin:0; 
+        padding:10px;
     }
     .container { 
         background:rgba(255,255,255,0.96); 
