@@ -75,4 +75,4 @@ with gr.Blocks(css=css, title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
     """)
 
 if __name__ == "__main__":
-    demo.launch( planetary=True, share=True)
+    demo.launch(share=True)
