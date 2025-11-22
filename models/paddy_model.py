@@ -7,8 +7,8 @@ import requests
 # ----------------------------------------------------
 # 1) LOCAL -> 2) GITHUB RAW -> 3) HUGGINGFACE fallback
 # ----------------------------------------------------
-LOCAL_PATH = "models/paddy_model_mendeley.pth"
-GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/blob/main/models/paddy_model_mendeley.pth"
+LOCAL_PATH = "models/paddy_model.pth"
+GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/blob/main/models/paddy_model.pth"
 HUGGINGFACE_URL = "https://huggingface.co/spaces/fffiloni/paddy-disease-classification/resolve/main/paddy_model.pth"
 
 # ----------------------------------------------------
