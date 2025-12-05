@@ -7,10 +7,9 @@ import os
 # ----------------------------------------------------
 # 1) LOCAL → 2) GITHUB RAW → 3) HUGGINGFACE fallback
 # ----------------------------------------------------
-LOCAL_PATH = "models/skin_model_production.pth"
+LOCAL_PATH = "models/skin_model_1.pth"
 
-GITHUB_URL = "https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/models/skin_model_production.pth"
-
+GITHUB_URL = "https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/models/skin_model_1.pth"
 HUGGINGFACE_URL = "https://huggingface.co/spaces/ahmedshahriar/Skin_Disease/resolve/main/skin_model.pth"
 
 
@@ -51,9 +50,16 @@ def safe_load_state_dict(model, path_or_url):
 # ----------------------------------------------------
 # BUILD MODEL - MobileNetV3 Small (7 classes)
 # ----------------------------------------------------
-model = models.mobilenet_v3_small(pretrained=False)
-model.classifier[3] = torch.nn.Linear(1024, 7)
+def build_model():
+    model = models.mobilenet_v3_small(weights=None)   # SAME AS TRAINING
+    in_features = model.classifier[3].in_features
+    model.classifier[3] = torch.nn.Linear(in_features, 7)  # YOU HAVE 7 SKIN CLASSES
+    return model
+
+model = build_model()
 model.eval()
+
+
 
 
 # ----------------------------------------------------

@@ -7,8 +7,8 @@ import requests
 # ----------------------------------------------------
 # 1) LOCAL -> 2) GITHUB -> 3) HUGGINGFACE fallback
 # ----------------------------------------------------
-LOCAL_PATH = "models/paddy_model_production.pth"
-GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/raw/main/models/paddy_model_production.pth"
+LOCAL_PATH = "models/paddy_model_1.pth"
+GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/raw/main/models/paddy_model_1.pth"
 HUGGINGFACE_URL = "https://huggingface.co/spaces/fffiloni/paddy-disease-classification/resolve/main/paddy_model.pth"
 
 # ----------------------------------------------------
@@ -46,9 +46,16 @@ def safe_load_state_dict(model, path_or_url):
 # BUILD MODEL (MUST MATCH TRAINED MODEL)
 # MobileNetV3-Small → classifier output = 4 classes
 # ----------------------------------------------------
-model = models.mobilenet_v3_small(pretrained=False)
-model.classifier[3] = torch.nn.Linear(1024, 4)  # FIXED 4 classes
+def build_model():
+    model = models.mobilenet_v3_small(weights=None)  # MATCH TRAINING EXACTLY
+    in_features = model.classifier[3].in_features
+    model.classifier[3] = torch.nn.Linear(in_features, 4)
+    return model
+
+model = build_model()
 model.eval()
+
+
 
 # ----------------------------------------------------
 # LOAD CHECKPOINT (Local → GitHub → HuggingFace)
