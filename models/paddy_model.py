@@ -46,10 +46,17 @@ def safe_load_state_dict(model, path_or_url):
 # BUILD MODEL (MUST MATCH TRAINED MODEL)
 # MobileNetV3-Small → classifier output = 4 classes
 # ----------------------------------------------------
+# def build_model():
+#     model = models.mobilenet_v3_small(weights=None)  # MATCH TRAINING EXACTLY
+#     in_features = model.classifier[3].in_features
+#     model.classifier[3] = torch.nn.Linear(in_features, 4)
+#     return model
+
+
 def build_model():
-    model = models.mobilenet_v3_small(weights=None)  # MATCH TRAINING EXACTLY
-    in_features = model.classifier[3].in_features
-    model.classifier[3] = torch.nn.Linear(in_features, 4)
+    model = models.mobilenet_v3_small(weights=None)  # MUST MATCH TRAINING
+    model.classifier[0] = torch.nn.Linear(576, 1024)
+    model.classifier[3] = torch.nn.Linear(1024, 4)
     return model
 
 model = build_model()
@@ -100,7 +107,7 @@ remedies = {
 # ----------------------------------------------------
 def predict_paddy(img: Image.Image) -> str:
     if img is None:
-        return "ଫଟୋ ଦିଅନ୍ତୁ"
+        return ""   # ← EMPTY STRING clears the output box
 
     tensor = transform(img).unsqueeze(0)
 

@@ -1,12 +1,13 @@
 {
-  "paddy": {
-    "model_url": "https://huggingface.co/spaces/fffiloni/paddy-disease-classification/resolve/main/paddy_model.pth",
+   "paddy": {
+    "model_url": "https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/models/paddy_model_1.pth",
+    "local_path": "models/paddy_model_1.pth",
 
     "classes": [
       "Bacterial Leaf Blight",
       "Brown Spot",
       "Leaf Blast",
-      "Healthy",
+
       "Tungro"
     ],
 
@@ -88,8 +89,9 @@
     }
   },
 
-  "skin": {
-    "model_url": "https://huggingface.co/spaces/ahmedshahriar/Skin_Disease/resolve/main/skin_model.pth",
+   "skin": {
+    "model_url": "https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/models/skin_model_1.pth",
+    "local_path": "models/skin_model_1.pth",
 
     "classes": [
       "Acne",

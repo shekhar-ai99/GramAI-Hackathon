@@ -27,3 +27,45 @@
 .gr-button { background: linear-gradient(45deg, #ff6200, #ff8c00) !important; border: none !important; font-weight: bold; padding: 16px; border-radius: 16px; box-shadow: 0 8px 25px rgba(255, 98, 0, 0.5); }
 .confidence { background: linear-gradient(90deg, #ff6200, #ff8c00); height: 60px; border-radius: 30px; text-align: center; color: white ; font-weight: bold; font-size: 28px; line-height: 60px; margin: 20px 0; }
 .gr-textbox, textarea { background: rgba(0,0,0,0.5) !important; color: #fff !important; border: 1px solid #00ff62; font-size: 18px; }
+
+
+
+/* Mobile App Card Style */
+
+.result-card {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    padding: 16px 20px;
+    margin-top: 10px;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    width: 100%;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ffe66d;
+}
+
+.card-text {
+    font-size: 15px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+
+/* Compact Audio Player */
+.gr-audio {
+    max-height: 70px !important;
+}
+
+/* Align prediction result cards in a neat stack */
+.result-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

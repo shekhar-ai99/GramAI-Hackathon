@@ -51,10 +51,11 @@ def safe_load_state_dict(model, path_or_url):
 # BUILD MODEL - MobileNetV3 Small (7 classes)
 # ----------------------------------------------------
 def build_model():
-    model = models.mobilenet_v3_small(weights=None)   # SAME AS TRAINING
-    in_features = model.classifier[3].in_features
-    model.classifier[3] = torch.nn.Linear(in_features, 7)  # YOU HAVE 7 SKIN CLASSES
+    model = models.mobilenet_v3_small(weights=None)  # MUST MATCH TRAINING
+    model.classifier[0] = torch.nn.Linear(576, 1024)
+    model.classifier[3] = torch.nn.Linear(1024, 7)
     return model
+
 
 model = build_model()
 model.eval()
@@ -112,8 +113,10 @@ remedies = {
 # PREDICT FUNCTION
 # ----------------------------------------------------
 def predict_skin(img: Image.Image) -> str:
+    # When user presses clear, Gradio sends img=None
+    # → return empty string to clear the output box
     if img is None:
-        return "ଫଟୋ ଦିଅନ୍ତୁ"
+        return ""
 
     tensor = transform(img).unsqueeze(0)
 
