@@ -8,18 +8,24 @@ import os
 # 1) LOCAL → 2) GITHUB RAW → 3) HUGGINGFACE fallback
 # ----------------------------------------------------
 LOCAL_PATH = "models/skin_model_production.pth"
-GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/blob/main/models/skin_model_production.pth"
+
+GITHUB_URL = "https://raw.githubusercontent.com/shekhar-ai99/GramAI-Hackathon/main/models/skin_model_production.pth"
+
 HUGGINGFACE_URL = "https://huggingface.co/spaces/ahmedshahriar/Skin_Disease/resolve/main/skin_model.pth"
 
+
 # ----------------------------------------------------
-# TRANSFORM
+# TRANSFORMS (MUST MATCH TRAINING)
 # ----------------------------------------------------
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
-    transforms.Normalize([0.485, 0.456, 0.406],
-                         [0.229, 0.224, 0.225])
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
 ])
+
 
 # ----------------------------------------------------
 # SAFE LOADER
@@ -36,53 +42,65 @@ def safe_load_state_dict(model, path_or_url):
         model.load_state_dict(state)
         print("✓ Skin model loaded successfully")
         return True
+
     except Exception as e:
-        print(f"⚠ Failed to load from {path_or_url}: {e}")
+        print(f"⚠ Failed to load {path_or_url}: {e}")
         return False
 
+
 # ----------------------------------------------------
-# BUILD MODEL
+# BUILD MODEL - MobileNetV3 Small (7 classes)
 # ----------------------------------------------------
 model = models.mobilenet_v3_small(pretrained=False)
-
-# Your skin model has 7 classes
 model.classifier[3] = torch.nn.Linear(1024, 7)
-
-# ORDER OF ATTEMPTS
-if os.path.exists(LOCAL_PATH):
-    ok = safe_load_state_dict(model, LOCAL_PATH)
-    if not ok:
-        ok = safe_load_state_dict(model, GITHUB_URL)
-else:
-    ok = safe_load_state_dict(model, GITHUB_URL)
-
-if not ok:
-    safe_load_state_dict(model, HUGGINGFACE_URL)
-
 model.eval()
 
+
 # ----------------------------------------------------
-# CLASSES + REMEDIES
+# LOAD WEIGHTS (Local → GitHub → HF)
+# ----------------------------------------------------
+loaded = False
+
+if os.path.exists(LOCAL_PATH):
+    loaded = safe_load_state_dict(model, LOCAL_PATH)
+
+if not loaded:
+    loaded = safe_load_state_dict(model, GITHUB_URL)
+
+if not loaded:
+    loaded = safe_load_state_dict(model, HUGGINGFACE_URL)
+
+if not loaded:
+    raise RuntimeError("❌ Could not load any skin model checkpoint")
+
+
+# ----------------------------------------------------
+# CORRECT CLASS ORDER — MUST MATCH TRAINING FOLDERS
 # ----------------------------------------------------
 classes = [
     "Acne",
+    "Benign Growth",
     "Eczema",
+    "Fungal Nail",
     "Psoriasis",
-    "Ringworm (Dadru)",
-    "Scabies",
-    "Fungal Infection",
-    "Healthy Skin"
+    "Ringworm",
+    "Scabies"
 ]
 
+
+# ----------------------------------------------------
+# REMEDIES (matching corrected class names)
+# ----------------------------------------------------
 remedies = {
     "Acne": "ମୁହଁ ସଫା ରଖନ୍ତୁ | ବେଞ୍ଜୋଇଲ୍ ପେରଅକ୍ସାଇଡ୍ ବ୍ୟବହାର କରନ୍ତୁ",
-    "Eczema": "ମୋଇଶ୍ଚରାଇଜର ଲଗାନ୍ତୁ | ସୁଗନ୍ଧ ଥିବା ସାବୁନ୍ ଏଡାନ୍ତୁ",
-    "Psoriasis": "ଡାକ୍ତରଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ",
-    "Ringworm (Dadru)": "କ୍ଲୋଟ୍ରିମାଜୋଲ୍ କ୍ରିମ୍ ଦିନକୁ 2 ଥର ଲଗାନ୍ତୁ",
-    "Scabies": "ପରମେଥ୍ରିନ୍ ଲୋଶନ ଲଗାନ୍ତୁ + ସମଗ୍ର ପରିବାରକୁ ଚିକିତ୍ସା କରନ୍ତୁ",
-    "Fungal Infection": "ଏଣ୍ଟି-ଫଙ୍ଗାଲ୍ କ୍ରିମ୍ ଲଗାନ୍ତୁ | ସଫା ଓ ଶୁଖିଲା ରଖନ୍ତୁ",
-    "Healthy Skin": "ଆପଣଙ୍କ ଚର୍ମ ସୁସ୍ଥ ଅଛି!"
+    "Benign Growth": "ସୁମଧୁର ଗଠାନ୍ | ଡାକ୍ତରଙ୍କୁ ଯାଞ୍ଚ କରନ୍ତୁ",
+    "Eczema": "ମୋଇଶ୍ଚରାଇଜର ଲଗାନ୍ତୁ | ସୁଗନ୍ଧିତ ସାବୁନ୍ ଏଡାନ୍ତୁ",
+    "Fungal Nail": "ଏଣ୍ଟି-ଫଙ୍ଗାଲ୍ କ୍ରିମ୍ ବ୍ୟବହାର କରନ୍ତୁ",
+    "Psoriasis": "ଡାକ୍ତରଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ | ବିଶେଷ ଔଷଧ ଦରକାର",
+    "Ringworm": "କ୍ଲୋଟ୍ରିମାଜୋଲ୍ କ୍ରିମ୍ ଦିନକୁ 2ଥର ଲଗାନ୍ତୁ",
+    "Scabies": "ପରମେଥ୍ରିନ୍ ଲୋଶନ ବ୍ୟବହାର କରନ୍ତୁ | ପରିବାର ସଭ୍ୟଙ୍କୁ ମଧ୍ୟ ଚିକିତ୍ସା କରନ୍ତୁ"
 }
+
 
 # ----------------------------------------------------
 # PREDICT FUNCTION

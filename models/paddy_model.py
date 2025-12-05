@@ -5,20 +5,22 @@ import os
 import requests
 
 # ----------------------------------------------------
-# 1) LOCAL -> 2) GITHUB RAW -> 3) HUGGINGFACE fallback
+# 1) LOCAL -> 2) GITHUB -> 3) HUGGINGFACE fallback
 # ----------------------------------------------------
 LOCAL_PATH = "models/paddy_model_production.pth"
-GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/blob/main/models/paddy_model_production.pth"
+GITHUB_URL = "https://github.com/shekhar-ai99/GramAI-Hackathon/raw/main/models/paddy_model_production.pth"
 HUGGINGFACE_URL = "https://huggingface.co/spaces/fffiloni/paddy-disease-classification/resolve/main/paddy_model.pth"
 
 # ----------------------------------------------------
-# TRANSFORM
+# TRANSFORM (MUST MATCH TRAINING)
 # ----------------------------------------------------
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
-    transforms.Normalize([0.485, 0.456, 0.406],
-                         [0.229, 0.224, 0.225])
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
 ])
 
 # ----------------------------------------------------
@@ -41,45 +43,53 @@ def safe_load_state_dict(model, path_or_url):
         return False
 
 # ----------------------------------------------------
-# BUILD MODEL
+# BUILD MODEL (MUST MATCH TRAINED MODEL)
+# MobileNetV3-Small → classifier output = 4 classes
 # ----------------------------------------------------
 model = models.mobilenet_v3_small(pretrained=False)
-model.classifier[3] = torch.nn.Linear(1024, 5)
-
-# ORDER OF ATTEMPTS
-if os.path.exists(LOCAL_PATH):
-    ok = safe_load_state_dict(model, LOCAL_PATH)
-    if not ok:
-        ok = safe_load_state_dict(model, GITHUB_URL)
-else:
-    ok = safe_load_state_dict(model, GITHUB_URL)
-
-if not ok:  # final fallback
-    safe_load_state_dict(model, HUGGINGFACE_URL)
-
+model.classifier[3] = torch.nn.Linear(1024, 4)  # FIXED 4 classes
 model.eval()
 
 # ----------------------------------------------------
-# CLASSES + REMEDIES
+# LOAD CHECKPOINT (Local → GitHub → HuggingFace)
+# ----------------------------------------------------
+loaded = False
+
+if os.path.exists(LOCAL_PATH):
+    loaded = safe_load_state_dict(model, LOCAL_PATH)
+
+if not loaded:
+    loaded = safe_load_state_dict(model, GITHUB_URL)
+
+if not loaded:
+    loaded = safe_load_state_dict(model, HUGGINGFACE_URL)
+
+if not loaded:
+    raise RuntimeError("❌ Could not load any model checkpoint")
+
+
+# ----------------------------------------------------
+# CLASS LABELS (MUST MATCH TRAINING ORDER)
 # ----------------------------------------------------
 classes = [
-    "Bacterial Leaf Blight",
-    "Brown Spot",
-    "Leaf Blast",
-    "Healthy",
+    "Bacterialblight",
+    "Blast",
+    "Brownspot",
     "Tungro"
 ]
 
+# ----------------------------------------------------
+# Remedies (Your Odia text preserved)
+# ----------------------------------------------------
 remedies = {
-    "Brown Spot": "ପ୍ରୋପିକୋନାଜୋଲ୍ 1ml/ଲିଟର ପାଣିରେ ସ୍ପ୍ରେ କରନ୍ତୁ",
-    "Leaf Blast": "ଟ୍ରାଇସାଇକ୍ଲାଜୋଲ୍ ସ୍ପ୍ରେ କରନ୍ତୁ",
-    "Healthy": "ଆପଣଙ୍କ ଧାନ ବହୁତ ସୁସ୍ଥ ଅଛି!",
-    "Bacterial Leaf Blight": "ଷ୍ଟ୍ରେପ୍ଟୋମାଇସିନ୍ ସ୍ପ୍ରେ କରନ୍ତୁ",
+    "Bacterialblight": "ଷ୍ଟ୍ରେପ୍ଟୋମାଇସିନ୍ ସ୍ପ୍ରେ କରନ୍ତୁ",
+    "Blast": "ଟ୍ରାଇସାଇକ୍ଲାଜୋଲ୍ ସ୍ପ୍ରେ କରନ୍ତୁ",
+    "Brownspot": "ପ୍ରୋପିକୋନାଜୋଲ୍ 1ml/ଲିଟର ପାଣିରେ ସ୍ପ୍ରେ କରନ୍ତୁ",
     "Tungro": "ସବୁଜ ପତ୍ର କୀଟ ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ"
 }
 
 # ----------------------------------------------------
-# PREDICT FUNCTION
+# PREDICTION FUNCTION
 # ----------------------------------------------------
 def predict_paddy(img: Image.Image) -> str:
     if img is None:

@@ -61,6 +61,8 @@ with gr.Blocks(title="GramAI – ଗ୍ରାମଏଆଇ") as demo:
         with gr.Column():
             mode = gr.Radio(["Paddy / ଧାନ", "Skin / ଚର୍ମ"], value="Paddy / ଧାନ", label="Select Mode")
             img_input = gr.Image(type="pil", label="Upload Photo", height=500)
+            mode.change(lambda _: None, inputs=None, outputs=img_input)
+
 
         with gr.Column():
             gr.HTML('<div class="container">')
