@@ -1,4 +1,8 @@
-/* css/style.css — FINAL 100% WORKING BACKGROUND */
+/* =======================================================
+   PREMIUM UI v2 — Odisha Theme + Animated Glassmorphism
+   ======================================================= */
+
+/* Background */
 .gradio-container, html, body {
     background: url('https://i.postimg.cc/B6Xj8tk7/odisha-bg.jpg') no-repeat center center fixed !important;
     background-size: cover !important;
@@ -6,66 +10,154 @@
     margin: 0 !important;
     padding: 0 !important;
 }
-:root { --bg: transparent !important; --bg-dark: transparent !important; }
-
-.container {
-    
-    backdrop-filter: blur(5px);
-    border-radius: 24px;
-   
- 
-    border: 1px solid rgba(0, 255, 100, 0.25);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    text-align: center;
-    background:#7c80aad9;
+:root { 
+    --bg: transparent !important; 
+    --bg-dark: transparent !important; 
 }
 
-.title-or { font-family: 'Noto Sans Oriya', sans-serif; font-size: clamp(48px, 11vw, 78px); color: #00ff62; text-shadow: 0 0 25px #00ff62; margin: 0; line-height: 1; }
-.title-en { font-size: clamp(28px, 6vw, 42px); color: #00ff62 !important; margin: 8px 0; opacity: 0.9; }
-.subtitle { font-size: 26px; color: #e0ff9e !important; text-align: center; line-height: 1.5; margin: 10px 0 20px 0; }
-
-.gr-button { background: linear-gradient(45deg, #ff6200, #ff8c00) !important; border: none !important; font-weight: bold; padding: 16px; border-radius: 16px; box-shadow: 0 8px 25px rgba(255, 98, 0, 0.5); }
-.confidence { background: linear-gradient(90deg, #ff6200, #ff8c00); height: 60px; border-radius: 30px; text-align: center; color: white ; font-weight: bold; font-size: 28px; line-height: 60px; margin: 20px 0; }
-.gr-textbox, textarea { background: rgba(0,0,0,0.5) !important; color: #fff !important; border: 1px solid #00ff62; font-size: 18px; }
-
-
-
-/* Mobile App Card Style */
-
-.result-card {
-    background: rgba(255, 255, 255, 0.18);
+/* Header Box */
+.container {
     backdrop-filter: blur(8px);
-    padding: 16px 20px;
-    margin-top: 10px;
-    border-radius: 18px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    border-radius: 24px;
+    padding: 25px 30px;
+    border: 1px solid rgba(0, 255, 100, 0.28);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    background: rgba(124, 128, 170, 0.80);
+    animation: fadeSlide 1s ease forwards;
+    opacity: 0;
+}
+
+/* Fade + Slide Animation */
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-25px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Title */
+.title-or { 
+    font-family: 'Noto Sans Oriya', sans-serif; 
+    font-size: clamp(48px, 11vw, 78px); 
+    color: #00ff62; 
+    text-shadow: 0 0 25px #00ff62; 
+    margin: 0; 
+    line-height: 1; 
+}
+.subtitle { 
+    font-size: 26px; 
+    color: #e0ff9e !important; 
+    line-height: 1.5; 
+    margin: 10px 0 20px 0; 
+}
+
+/* Buttons */
+.gr-button { 
+    background: linear-gradient(45deg, #ff6200, #ff8c00) !important; 
+    border: none !important; 
+    font-weight: bold; 
+    padding: 16px; 
+    border-radius: 16px; 
+    box-shadow: 0 8px 25px rgba(255, 98, 0, 0.5);
+    transition: 0.25s ease;
+}
+.gr-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 98, 0, 0.7);
+}
+
+/* Confidence Bar with Glow */
+.confidence { 
+    background: linear-gradient(90deg, #ff6200, #ff8c00);
+    height: 65px; 
+    border-radius: 40px; 
+    text-align: center; 
+    color: white ; 
+    font-weight: bold; 
+    font-size: 28px; 
+    line-height: 65px; 
+    margin: 20px 0; 
+    box-shadow: 0 0 18px rgba(255, 106, 0, 0.6);
+    animation: glowPulse 2s infinite ease-in-out;
+}
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 15px rgba(255, 106, 0, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(255, 106, 0, 0.9); }
+    100% { box-shadow: 0 0 15px rgba(255, 106, 0, 0.4); }
+}
+
+/* Textboxes */
+.gr-textbox, textarea { 
+    background: rgba(0,0,0,0.45) !important; 
+    color: #fff !important; 
+    border: 1px solid #00ff62; 
+    font-size: 18px; 
+    border-radius: 14px !important;
+    white-space: pre-wrap !important;
+}
+
+/* Result Cards */
+.result-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    padding: 18px 20px;
+    margin-top: 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.25);
     width: 100%;
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.35);
+    animation: fadeUp 0.5s ease forwards;
+    transform: translateY(12px);
+    opacity: 0;
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .card-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
     color: #ffe66d;
 }
 
 .card-text {
-    font-size: 15px;
-    line-height: 1.5;
-    white-space: pre-wrap;
+    font-size: 16px;
+    line-height: 1.55;
 }
 
+/* Error Card - Animated Shake */
+.error-card {
+    background: rgba(255, 60, 60, 0.30);
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 16px;
+    border: 2px solid rgba(255, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 16px rgba(255, 0, 0, 0.35);
+    margin-top: 12px;
+    animation: shake 0.35s ease;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
+}
 
-/* Compact Audio Player */
+/* Audio Player */
 .gr-audio {
-    max-height: 70px !important;
+    max-height: 75px !important;
+    margin-top: 10px;
 }
 
-/* Align prediction result cards in a neat stack */
+/* Stack layout */
 .result-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
