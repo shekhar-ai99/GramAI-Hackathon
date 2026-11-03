@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="or">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0e5a52">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%230e5a52%27/%3E%3Ctext x=%2732%27 y=%2745%27 font-size=%2740%27 text-anchor=%27middle%27%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E">
 <title>GramAI · ଗ୍ରାମଏଆଇ</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -14,234 +14,118 @@
 <div class="wrap">
   <header>
     <div class="mark" aria-hidden="true">🌾</div>
-    <div class="brand"><b>GramAI</b><small data-i18n="tagline"></small></div>
+    <div class="brand"><b>GramAI</b><small>ଗ୍ରାମଏଆଇ</small></div>
     <div class="spacer"></div>
-    <span class="pill">⚡ <span data-i18n="offline"></span></span>
+    <span class="pill">⚡ <span data-i18n="offline">Offline</span></span>
   </header>
+
+  <nav class="langs" role="radiogroup" aria-label="Language" id="langs"></nav>
   <div class="banner" id="pending" hidden style="margin-bottom:16px">🛡️<span></span></div>
 
-  <main id="main">
-    <!-- HOME -->
-    <section class="screen" id="s-home">
-      <div class="hero"><small data-i18n="heroEyebrow"></small><h1 data-i18n="heroTitle"></h1></div>
-      <h2 style="margin:0;font-size:18px" data-i18n="chooseCheck"></h2>
-      <div class="modes" role="group">
-        <button class="card mode" aria-pressed="true" data-mode="paddy"><div class="ico">🌾</div><div><b data-i18n="paddyTitle"></b></div><div class="go">›</div></button>
-        <button class="card mode" aria-pressed="false" data-mode="skin"><div class="ico">🧑‍⚕️</div><div><b data-i18n="skinTitle"></b></div><div class="go">›</div></button>
+  <main class="grid" id="main">
+    <section>
+      <div class="hero">
+        <small data-i18n="heroEyebrow">AI powered paddy &amp; skin detection</small>
+        <h1 data-i18n="heroTitle">One photo, the right advice</h1>
       </div>
-      <div class="finder" id="finder"><div><span class="leaf">🍃</span><span class="hint" id="hint" data-i18n="scanHintPaddy"></span></div></div>
-      <div class="chips"><span class="chip" data-i18n="goodLight"></span><span class="chip" data-i18n="holdSteady"></span></div>
-      <input type="file" id="file" accept="image/*" capture="environment" hidden>
-      <button class="btn" id="pick">📷&nbsp; <span data-i18n="camera"></span></button>
-      <button class="btn" id="analyze" hidden>🔍&nbsp; <span data-i18n="analyze"></span></button>
-      <button class="link" id="gallery" data-i18n="gallery"></button>
-      <div class="sechead"><h2 data-i18n="recent"></h2><button data-go="history" data-i18n="seeAll"></button></div>
-      <div class="stack" id="recent"></div>
-    </section>
 
-    <!-- CHECKING -->
-    <section class="screen" id="s-checking" hidden>
-      <h1 class="page" data-i18n="checkingTitle"></h1>
-      <p class="muted" style="margin-top:-8px" data-i18n="checkingSub"></p>
-      <div class="grid-scan" id="scanbox"><span>🍃</span></div>
-      <ol class="steps card" id="steps">
-        <li data-step="0"><span class="dot">·</span><span data-i18n="stepPhoto"></span></li>
-        <li data-step="1"><span class="dot">·</span><span data-i18n="stepRead"></span></li>
-        <li data-step="2"><span class="dot">·</span><span data-i18n="stepAdvice"></span></li>
-      </ol>
-    </section>
-
-    <!-- RESULT -->
-    <section class="screen" id="s-result" hidden>
-      <div class="hero-img" id="rimg"><button class="back" data-go="home" aria-label="Back">←</button><span>🌾</span></div>
-      <div class="sheet">
-        <div class="result-head">
-          <div><span class="pill">✓ <span data-i18n="diagnosis"></span></span><span class="pill demo">Demo</span><h2>Brown Spot</h2></div>
-          <div class="ring" id="ring" style="--p:0" data-p="91"><div><span>91%</span><small data-i18n="sure"></small></div></div>
-        </div>
-        <button class="btn" id="listen">🔊&nbsp; <span data-i18n="listen"></span></button>
-        <h2 style="margin:0;font-size:20px" data-i18n="whatNow"></h2>
-        <div class="card todo"><div class="ic">⚡</div><div>Remove badly infected leaves and keep the field clean.</div></div>
-        <div class="card todo"><div class="ic g">💬</div><div>Ask your agriculture officer before using any spray.</div></div>
-        <button class="link" id="seefull" data-i18n="seeFull"></button>
-        <div id="advice" hidden class="stack">
-          <div class="chiprow" id="advtabs" role="group">
-            <button aria-pressed="true" data-t="0" data-i18n="tabNow"></button><button aria-pressed="false" data-t="1" data-i18n="tabFarm"></button><button aria-pressed="false" data-t="2" data-i18n="tabIf"></button><button aria-pressed="false" data-t="3" data-i18n="tabPrevent"></button>
-          </div>
-          <div class="stack" id="advbody"></div>
-        </div>
-        <div class="card"><div class="label" data-i18n="others"></div>
-          <div class="bars">
-            <div><div class="l"><span>Brown Spot</span><span>91%</span></div><div class="b"><i style="width:91%"></i></div></div>
-            <div><div class="l"><span>Leaf Blast</span><span>5%</span></div><div class="b"><i style="width:5%"></i></div></div>
-            <div><div class="l"><span>Tungro</span><span>2%</span></div><div class="b"><i style="width:2%"></i></div></div>
-          </div></div>
-        <details class="card"><summary data-i18n="howDecided"></summary>
-          <ol class="steps"><li class="done"><span class="dot">✓</span><span>Photo: sharp, bright, leaf visible</span></li><li class="done"><span class="dot">✓</span><span>Diagnosis: Brown Spot 91%</span></li><li class="done"><span class="dot">✓</span><span>Accepted: confidence above 60%</span></li></ol></details>
-        <div class="banner">🛡️<span data-i18n="caution"></span></div>
-        <button class="btn ghost" data-i18n="share"></button>
+      <div class="modes" role="group" aria-label="Choose what to check">
+        <button class="card mode" aria-pressed="true" data-mode="paddy">
+          <div class="ico">🌾</div><div><b data-i18n="paddyTitle">Paddy check</b><span>Paddy · ଧାନ</span></div><div class="go">›</div>
+        </button>
+        <button class="card mode" aria-pressed="false" data-mode="skin">
+          <div class="ico">🧑‍⚕️</div><div><b data-i18n="skinTitle">Skin check</b><span>Skin · ଚର୍ମ</span></div><div class="go">›</div>
+        </button>
       </div>
+
+      <div class="finder" id="finder">
+        <div><span class="leaf">🍃</span><span class="hint" id="hint" data-i18n="scanHintPaddy">One leaf, fill the frame</span></div>
+      </div>
+      <div class="chips"><span class="chip" data-i18n="goodLight">Good light</span><span class="chip" data-i18n="holdSteady">Hold steady</span></div>
+
+      <input type="file" id="file" accept="image/*" hidden>
+      <button class="btn" id="pick">📷&nbsp; <span data-i18n="camera">Camera</span></button>
+      <button class="btn" id="analyze" hidden>🔍&nbsp; <span data-i18n="analyze">Analyze</span></button>
+      <button class="link" id="again" hidden>↻ <span data-i18n="retake">Retake photo</span></button>
     </section>
 
-    <!-- RETAKE -->
-    <section class="screen" id="s-retake" hidden>
+    <section class="stack" aria-live="polite">
+      <div class="card empty" id="empty"><span class="big" aria-hidden="true">🍃</span><span data-i18n="emptyResult">Your result will appear here</span></div>
+      <div class="stack" id="result" hidden>
+      <!-- Demo output. Replace with real model output (ONNX Runtime Web) in Phase 3. -->
       <div class="card">
-        <span class="pill st warn">📷 <span data-i18n="pleaseRetake"></span></span>
-        <h1 class="page" style="margin-top:12px" data-i18n="retakeTitle"></h1>
-        <p class="muted" style="font-size:17px;color:var(--ink)" data-i18n="retakeBody"></p>
+        <div class="result-head">
+          <div>
+            <span class="pill">✓ <span data-i18n="diagnosis">Diagnosis</span></span><span class="pill demo">Demo</span>
+            <h2>Brown Spot</h2>
+          </div>
+          <div class="ring" style="--p:91"><div><span>91%</span><small data-i18n="sure">sure</small></div></div>
+        </div>
+        <p class="muted" data-i18n="reliable">Highly reliable result</p>
       </div>
-      <div class="tiles"><div class="tile"><span>🙌</span><b data-i18n="tipHands"></b></div><div class="tile"><span>👆</span><b data-i18n="tipFocus"></b></div><div class="tile"><span>⏱️</span><b data-i18n="tipWait"></b></div></div>
-      <button class="btn" data-go="home">📷&nbsp; <span data-i18n="retake"></span></button>
-      <button class="btn ghost" id="gallery2" data-i18n="gallery"></button>
-    </section>
 
-    <!-- EXPERT -->
-    <section class="screen" id="s-expert" hidden>
-      <div class="redhero"><div class="av">🧑‍🌾</div><h1 data-i18n="expertTitle"></h1></div>
-      <div class="card pullup"><p style="margin:0 0 14px" data-i18n="expertBody"></p><div class="banner alert">🚫<span data-i18n="expertBanner"></span></div></div>
-      <button class="btn" id="listen2">🔊&nbsp; <span data-i18n="listen"></span></button>
-      <h2 style="margin:0;font-size:20px" data-i18n="savedOnPhone"></h2>
-      <div class="stack" id="expertcase"></div>
-    </section>
+      <button class="btn" id="listen">🔊&nbsp; <span data-i18n="listen">Listen</span></button>
 
-    <!-- HISTORY -->
-    <section class="screen" id="s-history" hidden>
-      <h1 class="page" data-i18n="historyTitle"></h1>
-      <div class="stack" id="hlist"></div>
-      <button class="btn ghost" id="clear" data-i18n="deleteAll"></button>
-    </section>
+      <div class="card sec"><h3>Description</h3><p>Small brown oval spots with yellow edges on leaves.</p></div>
+      <div class="card sec"><h3>Treatment</h3><p>Sample text. Real remedies come from <code>diseases.json</code>.</p></div>
 
-    <!-- SETTINGS -->
-    <section class="screen" id="s-settings" hidden>
-      <h1 class="page" data-i18n="settingsTitle"></h1>
-      <div class="card"><div class="label" data-i18n="language"></div><nav class="langs" role="radiogroup" id="langs" style="margin:0"></nav></div>
-      <div class="card"><div class="label" data-i18n="theme"></div>
-        <div class="seg2" id="themeseg"><button data-th="auto" data-i18n="themeAuto"></button><button data-th="light" data-i18n="themeLight"></button><button data-th="dark" data-i18n="themeDark"></button></div></div>
-      <div class="card"><div class="label" data-i18n="demoOutcome"></div>
-        <select class="sel" id="outcome"><option value="result">Result (confident)</option><option value="retake">Retake (blurry)</option><option value="expert">Ask an expert (unsure)</option></select></div>
-      <div class="card"><div class="label" data-i18n="about"></div><p style="margin:0" data-i18n="aboutBody"></p><p class="muted">GramAI web · design preview 0.3</p></div>
+      <div class="banner">🛡️<span data-i18n="caution">AI suggestion, not a diagnosis. Confirm with an expert before any treatment.</span></div>
+      <button class="btn ghost"><span data-i18n="share">Share with expert</span></button>
+      </div>
     </section>
   </main>
-  <footer><span data-i18n="footer"></span> · Chandra Shekhar</footer>
+
+  <footer><span data-i18n="footer">AI for Health &amp; Agriculture</span> · Chandra Shekhar</footer>
 </div>
 
-<nav class="tabbar" aria-label="Main"><div>
-  <button data-go="home" aria-current="page"><span class="i">🏠</span><span data-i18n="navScan"></span></button>
-  <button data-go="history"><span class="i">🕘</span><span data-i18n="navHistory"></span></button>
-  <button data-go="settings"><span class="i">⚙️</span><span data-i18n="navSettings"></span></button>
-</div></nav>
-
-<dialog class="welcome" id="welcome" aria-labelledby="wt">
-  <div class="wh"><div class="mark" aria-hidden="true">🌾</div><h2 id="wt">ଭାଷା ବାଛନ୍ତୁ</h2><p>भाषा चुनें · Tap your language</p></div>
-  <div class="pick" id="pick-lang"></div>
-  <div class="badges"><span>📶 <span data-i18n="worksOffline"></span></span><span>🛡️ <span data-i18n="photosStay"></span></span></div>
-</dialog>
-
 <script>
-  // Fixed UI text. Odia and Hindi are drafts; Santali is machine translated (unreviewed);
-  // Ho has no text yet and falls back to English. Demo advice below is English-only on purpose.
-  const T = { en: { tagline:'AI for Village & Gram', offline:'Offline', navScan:'Scan', navHistory:'History', navSettings:'Settings', heroEyebrow:'AI to detect rice plant and skin diseases', heroTitle:'One photo, the right advice', chooseCheck:'What do you want to examine?', paddyTitle:'Rice plant disease check', skinTitle:'Skin disease check', scanHintPaddy:'One rice leaf, fill the frame', scanHintSkin:'One skin patch, fill the frame', goodLight:'Good light', holdSteady:'Hold steady', camera:'Camera', gallery:'Choose from gallery', analyze:'Analyze', retake:'Retake photo', diagnosis:'Diagnosis', sure:'sure', reliable:'Highly reliable result', listen:'Listen', share:'Share with expert', caution:'AI suggestion, not a diagnosis. Confirm with an expert before any treatment.', footer:'AI for Health & Agriculture', emptyResult:'Your result will appear here', checkingTitle:'Checking your photo', checkingSub:'This takes a few seconds, no internet needed', stepPhoto:'Checking the photo', stepRead:'Reading the image', stepAdvice:'Preparing advice', recent:'Recent checks', seeAll:'See all', noHistory:'No checks yet', whatNow:'What to do now', seeFull:'See full advice', howDecided:'How this was decided', others:'Other possibilities', tabNow:'Do now', tabFarm:'Farming practices', tabIf:'If needed', tabPrevent:'Prevention', retakeTitle:'The photo is blurry', retakeBody:'Hold the phone steady with both hands, tap the leaf on the screen to focus, and wait a second before taking the photo.', pleaseRetake:'Please retake the photo', tipHands:'Two hands', tipFocus:'Tap to focus', tipWait:'Wait 1 second', expertTitle:'Ask an expert', expertBody:'The AI is not sure. Do not spray or treat yet. Your case is saved on this phone and can be shared with an expert.', expertBanner:'Do not treat until an expert replies', savedOnPhone:'Saved on this phone', historyTitle:'History', deleteAll:'Delete all', settingsTitle:'Settings', language:'Language', theme:'Appearance', themeAuto:'Auto', themeLight:'Light', themeDark:'Dark', demoOutcome:'Demo outcome (design preview)', about:'About', aboutBody:'GramAI works on your phone. Your photos stay on your phone.', worksOffline:'Works offline', photosStay:'Photos stay on phone', chooseLang:'Tap your language', sureSuffix:'sure', resultStatus:'Result', retakeStatus:'Retake', expertStatus:'Expert', back:'Back', unsure:'Not sure' }, or: { tagline:'ଗାଁ ଓ ଗ୍ରାମ ପାଇଁ AI', offline:'ଅଫଲାଇନ୍', navScan:'ସ୍କାନ', navHistory:'ଇତିହାସ', navSettings:'ସେଟିଂସ', heroEyebrow:'AI ଦ୍ୱାରା ଧାନ ଓ ଚର୍ମ ରୋଗ ଚିହ୍ନଟ', heroTitle:'ଗୋଟିଏ ଫଟୋ, ସଠିକ୍ ପରାମର୍ଶ', chooseCheck:'ଆପଣ କଣ ଯାଞ୍ଚ କରିବେ?', paddyTitle:'ଧାନ ରୋଗ ଚିହ୍ନଟ', skinTitle:'ଚର୍ମ ରୋଗ ଚିହ୍ନଟ', scanHintPaddy:'ଗୋଟିଏ ପତ୍ର, ଫ୍ରେମ୍ ଭରନ୍ତୁ', scanHintSkin:'ଗୋଟିଏ ସ୍ଥାନ, ଫ୍ରେମ୍ ଭରନ୍ତୁ', goodLight:'ଭଲ ଆଲୋକ', holdSteady:'ଫୋନ୍ ସ୍ଥିର ରଖନ୍ତୁ', camera:'କ୍ୟାମେରା', gallery:'ଗ୍ୟାଲେରୀରୁ ବାଛନ୍ତୁ', analyze:'ଚିହ୍ନଟ କରନ୍ତୁ', retake:'ପୁନର୍ବାର ଫଟୋ ନିଅନ୍ତୁ', diagnosis:'ରୋଗ ନିର୍ଣ୍ଣୟ', sure:'ନିଶ୍ଚିତ', reliable:'ବହୁତ ଭରସାଯୋଗ୍ୟ ଫଳାଫଳ', listen:'ଶୁଣନ୍ତୁ', share:'ସେୟାର କରନ୍ତୁ', caution:'ଏହା AI ର ପରାମର୍ଶ, ନିଦାନ ନୁହେଁ। ଚିକିତ୍ସା ପୂର୍ବରୁ ବିଶେଷଜ୍ଞଙ୍କ ସହ ପରାମର୍ଶ କରନ୍ତୁ।', footer:'ସ୍ୱାସ୍ଥ୍ୟ ଓ କୃଷି ପାଇଁ AI', emptyResult:'ଆପଣଙ୍କ ଫଳାଫଳ ଏଠାରେ ଦେଖାଯିବ', checkingTitle:'ଆପଣଙ୍କ ଫଟୋ ଯାଞ୍ଚ ହେଉଛି', checkingSub:'କିଛି ସେକେଣ୍ଡ ଲାଗିବ, ଇଣ୍ଟରନେଟ୍ ଦରକାର ନାହିଁ', stepPhoto:'ଫଟୋ ଯାଞ୍ଚ ହେଉଛି', stepRead:'ଛବି ପଢ଼ାଯାଉଛି', stepAdvice:'ପରାମର୍ଶ ପ୍ରସ୍ତୁତ ହେଉଛି', recent:'ସାମ୍ପ୍ରତିକ ଯାଞ୍ଚ', seeAll:'ସବୁ ଦେଖନ୍ତୁ', noHistory:'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଯାଞ୍ଚ ନାହିଁ', whatNow:'ଏବେ କଣ କରିବେ', seeFull:'ପୂର୍ଣ୍ଣ ପରାମର୍ଶ ଦେଖନ୍ତୁ', howDecided:'ଏହା କିପରି ସ୍ଥିର ହେଲା', others:'ଅନ୍ୟ ସମ୍ଭାବନା', tabNow:'ଏବେ କରନ୍ତୁ', tabFarm:'ଚାଷ ଉପାୟ', tabIf:'ଦରକାର ହେଲେ', tabPrevent:'ପ୍ରତିରୋଧ', retakeTitle:'ଫଟୋ ଅସ୍ପଷ୍ଟ ଅଛି', retakeBody:'ଦୁଇ ହାତରେ ଫୋନ୍ ସ୍ଥିର ରଖନ୍ତୁ, ଫୋକସ୍ ପାଇଁ ସ୍କ୍ରିନରେ ପତ୍ର ଛୁଅଁନ୍ତୁ, ଏବଂ ଫଟୋ ନେବା ପୂର୍ବରୁ ଏକ ସେକେଣ୍ଡ ଅପେକ୍ଷା କରନ୍ତୁ।', pleaseRetake:'ଦୟାକରି ପୁନର୍ବାର ଫଟୋ ନିଅନ୍ତୁ', tipHands:'ଦୁଇ ହାତ', tipFocus:'ଫୋକସ୍ ପାଇଁ ଛୁଅଁନ୍ତୁ', tipWait:'୧ ସେକେଣ୍ଡ ଅପେକ୍ଷା କରନ୍ତୁ', expertTitle:'ବିଶେଷଜ୍ଞଙ୍କୁ ପଚାରନ୍ତୁ', expertBody:'AI ନିଶ୍ଚିତ ନୁହେଁ। ଏବେ ଔଷଧ ଦିଅନ୍ତୁ ନାହିଁ। ଆପଣଙ୍କ କେସ୍ ଏହି ଫୋନରେ ସଞ୍ଚିତ ଅଛି ଏବଂ ବିଶେଷଜ୍ଞଙ୍କ ସହ ସେୟାର କରାଯାଇପାରିବ।', expertBanner:'ବିଶେଷଜ୍ଞଙ୍କ ଉତ୍ତର ପର୍ଯ୍ୟନ୍ତ ଚିକିତ୍ସା କରନ୍ତୁ ନାହିଁ', savedOnPhone:'ଏହି ଫୋନରେ ସଞ୍ଚିତ', historyTitle:'ଇତିହାସ', deleteAll:'ସବୁ ଡିଲିଟ୍ କରନ୍ତୁ', settingsTitle:'ସେଟିଂସ', language:'ଭାଷା', theme:'ରୂପ', themeAuto:'ସ୍ୱୟଂଚାଳିତ', themeLight:'ଆଲୋକ', themeDark:'ଅନ୍ଧାର', demoOutcome:'ଡେମୋ ଫଳାଫଳ (ଡିଜାଇନ୍ ପ୍ରିଭ୍ୟୁ)', about:'ବିଷୟରେ', aboutBody:'GramAI ଆପଣଙ୍କ ଫୋନରେ ଚାଲେ। ଆପଣଙ୍କ ଫଟୋ ଫୋନରେ ହିଁ ରହେ।', worksOffline:'ଇଣ୍ଟରନେଟ୍ ବିନା ଚାଲେ', photosStay:'ଫଟୋ ଫୋନରେ ହିଁ ରହେ', chooseLang:'ଆପଣଙ୍କ ଭାଷା ବାଛନ୍ତୁ', sureSuffix:'ନିଶ୍ଚିତ', resultStatus:'ଫଳାଫଳ', retakeStatus:'ପୁନଃ ଫଟୋ', expertStatus:'ବିଶେଷଜ୍ଞ', back:'ପଛକୁ', unsure:'ନିଶ୍ଚିତ ନୁହେଁ' }, hi: { tagline:'गाँव और ग्राम के लिए AI', offline:'ऑफ़लाइन', navScan:'स्कैन', navHistory:'इतिहास', navSettings:'सेटिंग्स', heroEyebrow:'AI से धान और त्वचा रोग की पहचान', heroTitle:'एक फ़ोटो, सही सलाह', chooseCheck:'आप क्या जाँचना चाहते हैं?', paddyTitle:'धान की जाँच', skinTitle:'त्वचा की जाँच', scanHintPaddy:'एक पत्ता, पूरा फ़्रेम', scanHintSkin:'एक हिस्सा, पूरा फ़्रेम', goodLight:'अच्छी रोशनी', holdSteady:'फ़ोन स्थिर रखें', camera:'कैमरा', gallery:'गैलरी से चुनें', analyze:'जाँच करें', retake:'दोबारा फ़ोटो लें', diagnosis:'निदान', sure:'भरोसा', reliable:'भरोसेमंद नतीजा', listen:'सुनें', share:'विशेषज्ञ को भेजें', caution:'यह AI का सुझाव है, निदान नहीं। इलाज से पहले विशेषज्ञ से पुष्टि करें।', footer:'स्वास्थ्य और कृषि के लिए AI', emptyResult:'आपका नतीजा यहाँ दिखेगा', checkingTitle:'आपकी फ़ोटो जाँची जा रही है', checkingSub:'कुछ सेकंड लगेंगे, इंटरनेट की ज़रूरत नहीं', stepPhoto:'फ़ोटो जाँच रहे हैं', stepRead:'तस्वीर पढ़ रहे हैं', stepAdvice:'सलाह तैयार हो रही है', recent:'हाल की जाँचें', seeAll:'सब देखें', noHistory:'अभी तक कोई जाँच नहीं', whatNow:'अभी क्या करें', seeFull:'पूरी सलाह देखें', howDecided:'यह कैसे तय हुआ', others:'अन्य संभावनाएँ', tabNow:'अभी करें', tabFarm:'खेती के उपाय', tabIf:'ज़रूरत हो तो', tabPrevent:'रोकथाम', retakeTitle:'फ़ोटो धुंधली है', retakeBody:'दोनों हाथों से फ़ोन स्थिर रखें, फ़ोकस के लिए स्क्रीन पर पत्ते को छुएँ, और फ़ोटो लेने से पहले एक सेकंड रुकें।', pleaseRetake:'कृपया फ़ोटो दोबारा लें', tipHands:'दोनों हाथ', tipFocus:'फ़ोकस के लिए छुएँ', tipWait:'1 सेकंड रुकें', expertTitle:'विशेषज्ञ से पूछें', expertBody:'AI को पक्का भरोसा नहीं है। अभी दवा न डालें। आपका केस इस फ़ोन में सहेजा है और विशेषज्ञ को भेजा जा सकता है।', expertBanner:'विशेषज्ञ के जवाब तक इलाज न करें', savedOnPhone:'इस फ़ोन में सहेजा गया', historyTitle:'इतिहास', deleteAll:'सब हटाएँ', settingsTitle:'सेटिंग्स', language:'भाषा', theme:'रूप', themeAuto:'ऑटो', themeLight:'हल्का', themeDark:'गहरा', demoOutcome:'डेमो नतीजा (डिज़ाइन पूर्वावलोकन)', about:'जानकारी', aboutBody:'GramAI आपके फ़ोन पर चलता है। आपकी फ़ोटो फ़ोन में ही रहती हैं।', worksOffline:'बिना इंटरनेट चलता है', photosStay:'फ़ोटो फ़ोन में ही रहती हैं', chooseLang:'अपनी भाषा चुनें', sureSuffix:'भरोसा', resultStatus:'नतीजा', retakeStatus:'दोबारा', expertStatus:'विशेषज्ञ', back:'वापस', unsure:'पक्का नहीं' }, sat: { tagline:'ᱟᱹᱛᱩ ᱟᱨ ᱜᱽᱨᱟᱢ ᱞᱟᱹᱜᱤᱫ AI', offline:'ᱚᱯᱷᱞᱟᱭᱤᱱ', navScan:'ᱥᱠᱮᱱ', navHistory:'ᱱᱟᱜᱟᱢ', navSettings:'ᱥᱮᱴᱤᱝ', heroEyebrow:'ᱫᱟᱠᱟ ᱫᱟᱨᱮ ᱟᱨ ᱦᱟᱨᱛᱟ ᱨᱚᱜᱽ ᱵᱟᱰᱟᱭ ᱞᱟᱹᱜᱤᱫ AI', heroTitle:'ᱢᱤᱫ ᱪᱤᱛᱟᱹᱨ, ᱴᱷᱤᱠ ᱥᱚᱞᱦᱟ', chooseCheck:'ᱟᱢ ᱪᱮᱫ ᱵᱤᱱᱤᱰ ᱥᱟᱱᱟᱭᱮᱫ ᱢᱮᱭᱟ?', paddyTitle:'ᱫᱟᱠᱟ ᱫᱟᱨᱮ ᱨᱚᱜᱽ ᱧᱮᱞ', skinTitle:'ᱦᱟᱨᱛᱟ ᱨᱚᱜᱽ ᱵᱤᱱᱤᱰ', scanHintPaddy:'ᱢᱤᱫ ᱫᱟᱠᱟ ᱥᱟᱠᱟᱢ, ᱯᱷᱨᱟᱢ ᱯᱮᱨᱮᱡᱽ ᱢᱮ', scanHintSkin:'ᱢᱤᱫ ᱦᱟᱨᱛᱟ ᱯᱮᱪ, ᱯᱷᱨᱟᱢ ᱯᱮᱨᱮᱡᱽ ᱢᱮ', goodLight:'ᱱᱟᱯᱟᱭ ᱢᱟᱨᱥᱟᱞ', holdSteady:'ᱛᱷᱤᱨ ᱥᱟᱵ ᱢᱮ', camera:'ᱠᱮᱢᱮᱨᱟ', gallery:'ᱜᱮᱞᱮᱨᱤ ᱠᱷᱚᱱ ᱵᱟᱪᱷᱟᱣ ᱢᱮ', analyze:'ᱵᱤᱥᱲᱤ ᱢᱮ', retake:'ᱪᱤᱛᱟᱹᱨ ᱫᱚᱦᱲᱟ ᱦᱟᱛᱟᱣ ᱢᱮ', diagnosis:'ᱰᱟᱭᱜᱽᱱᱚᱥᱤᱥ', sure:'ᱠᱷᱟᱹᱴᱤ', reliable:'ᱟᱹᱰᱤ ᱯᱟᱹᱛᱭᱟᱹᱣᱟᱱ ᱚᱨᱡᱚ', listen:'ᱟᱡᱚᱢ', share:'ᱜᱟᱹᱠᱷᱩᱲᱤᱭᱟᱹ ᱥᱟᱶ ᱦᱟᱹᱴᱤᱧ ᱢᱮ', caution:'AI ᱥᱚᱞᱦᱟ, ᱰᱟᱭᱜᱽᱱᱚᱥᱤᱥ ᱫᱚ ᱵᱟᱝ ᱾ ᱡᱟᱦᱟᱱ ᱪᱤᱠᱤᱥᱟ ᱢᱟᱲᱟᱝ ᱨᱮ ᱢᱤᱫ ᱜᱟᱹᱠᱷᱩᱲᱤᱭᱟᱹ ᱥᱟᱶ ᱴᱷᱟᱹᱣᱠᱟᱹᱭ ᱢᱮ᱾', footer:'ᱦᱚᱲᱢᱚ ᱟᱨ ᱪᱟᱥ ᱠᱟᱹᱢᱤ ᱞᱟᱹᱜᱤᱫ AI', emptyResult:'ᱟᱢᱟᱜ ᱚᱨᱡᱚ ᱱᱚᱸᱰᱮ ᱧᱮᱞᱚᱜᱼᱟ', checkingTitle:'ᱟᱢᱟᱜ ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱮᱫᱟᱹᱧ', checkingSub:'ᱱᱚᱣᱟ ᱞᱟᱹᱜᱤᱫ ᱛᱤᱱᱟᱹᱜ ᱜᱟᱱ ᱴᱤᱯᱤᱡ ᱞᱟᱜᱟᱜᱼᱟ, ᱤᱱᱴᱟᱨᱱᱮᱴ ᱨᱮᱭᱟᱜ ᱞᱟᱹᱠᱛᱤ ᱵᱟᱹᱱᱩᱜᱼᱟ', stepPhoto:'ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ', stepRead:'ᱪᱤᱛᱟᱹᱨ ᱯᱟᱲᱦᱟᱣ', stepAdvice:'ᱥᱚᱞᱦᱟ ᱥᱟᱯᱲᱟᱣ', recent:'ᱱᱮᱛᱟᱨ ᱪᱮᱠ', seeAll:'ᱥᱟᱱᱟᱢ ᱠᱚ ᱧᱮᱞ ᱢᱮ', noHistory:'ᱱᱤᱛ ᱦᱚᱸ ᱪᱮᱫ ᱪᱮᱠ ᱵᱟᱹᱱᱩᱜᱼᱟ', whatNow:'ᱱᱤᱛᱚᱜ ᱪᱮᱫ ᱪᱤᱠᱟᱹ ᱦᱩᱭᱩᱜᱼᱟ', seeFull:'ᱯᱩᱨᱟᱹ ᱥᱚᱞᱦᱟ ᱧᱮᱞ ᱢᱮ', howDecided:'ᱱᱚᱣᱟ ᱪᱤᱠᱟᱹᱛᱮ ᱴᱷᱟᱹᱣᱠᱟᱹ ᱞᱮᱱᱟ', others:'ᱮᱴᱟᱜ ᱥᱚᱢᱵᱷᱚᱵᱷᱚᱱᱟ ᱠᱚ', tabNow:'ᱱᱤᱛᱚᱜ ᱠᱚᱨᱟᱣ ᱢᱮ', tabFarm:'ᱪᱟᱥ ᱠᱟᱹᱢᱤ ᱨᱮᱭᱟᱜ ᱦᱮᱣᱟ', tabIf:'ᱡᱩᱫᱤ ᱞᱟᱹᱠᱛᱤᱜ ᱠᱟᱱᱟ', tabPrevent:'ᱵᱚᱱᱫᱚ', retakeTitle:'ᱪᱤᱛᱟᱹᱨ ᱫᱚ ᱵᱽᱞᱩᱨᱤ ᱜᱮᱭᱟ', retakeBody:'ᱵᱟᱱᱟᱨ ᱛᱤ ᱛᱮ ᱯᱷᱚᱱ ᱥᱟᱵ ᱠᱟᱛᱮ ᱯᱷᱚᱠᱟᱥ ᱞᱟᱹᱜᱤᱫ ᱥᱠᱨᱤᱱ ᱨᱮ ᱥᱟᱠᱟᱢ ᱴᱮᱯ ᱢᱮ, ᱟᱨ ᱯᱷᱚᱴᱚ ᱦᱟᱛᱟᱣ ᱞᱟᱦᱟᱨᱮ ᱢᱤᱫ ᱴᱤᱯᱤᱡ ᱛᱟᱺᱜᱤ ᱢᱮ᱾', pleaseRetake:'ᱫᱟᱭᱟ ᱠᱟᱛᱮ ᱪᱤᱛᱟᱹᱨ ᱫᱚᱦᱲᱟ ᱦᱟᱛᱟᱣ ᱢᱮ', tipHands:'ᱵᱟᱨ ᱛᱤ', tipFocus:'ᱯᱷᱚᱠᱟᱥ ᱞᱟᱹᱜᱤᱫ ᱴᱮᱯ ᱢᱮ', tipWait:'᱑ ᱴᱤᱯᱤᱡ ᱛᱟᱺᱜᱤ ᱢᱮ', expertTitle:'ᱢᱤᱫ ᱜᱟᱹᱠᱷᱩᱲᱤᱭᱟᱹ ᱠᱩᱞᱤᱭᱮᱢ', expertBody:'AI ᱫᱚ ᱵᱟᱭ ᱴᱷᱟᱹᱣᱠᱟᱹ ᱜᱮᱭᱟ ᱾ ᱱᱤᱛ ᱦᱚᱸ ᱟᱞᱚᱢ ᱥᱯᱨᱮᱭᱟ ᱟᱨ ᱟᱞᱚᱢ ᱴᱨᱤᱴᱟ᱾ ᱟᱢᱟᱜ ᱠᱮᱥ ᱱᱚᱣᱟ ᱯᱷᱚᱱ ᱨᱮ ᱥᱟᱧᱪᱟᱣ ᱢᱮᱱᱟᱜᱼᱟ ᱟᱨ ᱢᱤᱫ ᱜᱟᱹᱠᱷᱩᱲᱤᱭᱟᱹ ᱥᱟᱶ ᱦᱟᱹᱴᱤᱧ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ᱾', expertBanner:'ᱢᱤᱫ ᱜᱟᱹᱠᱷᱩᱲᱤᱭᱟᱹ ᱛᱮᱞᱟ ᱵᱟᱝ ᱮᱢ ᱞᱮᱠᱷᱟᱱ ᱟᱞᱚᱢ ᱪᱤᱠᱤᱥᱟ', savedOnPhone:'ᱱᱚᱣᱟ ᱯᱷᱚᱱ ᱨᱮ ᱥᱟᱧᱪᱟᱣ ᱟᱠᱟᱱᱟ', historyTitle:'ᱱᱟᱜᱟᱢ', deleteAll:'ᱥᱟᱱᱟᱢ ᱰᱤᱞᱤᱴ ᱢᱮ', settingsTitle:'ᱥᱮᱴᱤᱝ', language:'ᱯᱟᱨᱥᱤ', theme:'ᱧᱮᱧᱮᱞ', themeAuto:'ᱚᱴᱚ', themeLight:'ᱢᱟᱨᱥᱟᱞ', themeDark:'ᱧᱩᱛᱩᱢ', demoOutcome:'ᱰᱮᱢᱚ ᱚᱨᱡᱚ (ᱰᱤᱡᱟᱭᱤᱱ ᱯᱨᱤᱵᱷᱭᱩ)', about:'ᱵᱟᱵᱚᱛ', aboutBody:'ᱜᱽᱨᱟᱢᱮᱭ ᱟᱢᱟᱜ ᱯᱷᱚᱱ ᱨᱮ ᱠᱟᱹᱢᱤ ᱮᱫᱟᱭ ᱾ ᱟᱢᱟᱜ ᱯᱷᱚᱴᱚ ᱟᱢᱟᱜ ᱯᱷᱚᱱ ᱨᱮ ᱛᱟᱦᱮᱱᱟ ᱾', worksOffline:'ᱚᱯᱷᱞᱟᱭᱤᱱ ᱠᱟᱹᱢᱤ ᱠᱟᱱᱟᱭ', photosStay:'ᱪᱤᱛᱟᱹᱨ ᱠᱚ ᱯᱷᱚᱱ ᱨᱮ ᱛᱟᱦᱮᱱᱟ', chooseLang:'ᱟᱢᱟᱜ ᱯᱟᱹᱨᱥᱤ ᱴᱮᱯ ᱢᱮ', sureSuffix:'ᱠᱷᱟᱹᱴᱤ', resultStatus:'ᱚᱨᱡᱚ', retakeStatus:'ᱫᱚᱦᱲᱟ ᱦᱟᱛᱟᱣ', expertStatus:'ᱢᱟᱷᱤᱨ', back:'ᱨᱩᱣᱮᱲ', unsure:'ᱵᱟᱹᱧ ᱴᱷᱟᱹᱣᱠᱟᱹ ᱜᱮᱭᱟ' } };
+  // Fixed UI text per language. Santali and Ho have no reviewed text yet: they
+  // fall back to English and show a notice. See ../docs/ui_strings_translation.csv.
   const LANGS = [
     { code: 'or',  name: 'ଓଡ଼ିଆ',   ui: true },
     { code: 'en',  name: 'English', ui: true },
     { code: 'hi',  name: 'हिन्दी',    ui: true },
-    { code: 'sat', name: 'ᱥᱟᱱᱛᱟᱲᱤ', ui: true, mt: true },
+    { code: 'sat', name: 'ᱥᱟᱱᱛᱟᱲᱤ', ui: false },
     { code: 'hoc', name: 'Ho',      ui: false },
   ];
+  const T = {
+    en: { offline:'Offline', heroEyebrow:'AI powered paddy & skin detection', heroTitle:'One photo, the right advice', paddyTitle:'Paddy check', skinTitle:'Skin check', scanHintPaddy:'One leaf, fill the frame', scanHintSkin:'One patch, fill the frame', emptyResult:'Your result will appear here', goodLight:'Good light', holdSteady:'Hold steady', camera:'Camera', analyze:'Analyze', retake:'Retake photo', diagnosis:'Diagnosis', sure:'sure', reliable:'Highly reliable result', listen:'Listen', caution:'AI suggestion, not a diagnosis. Confirm with an expert before any treatment.', share:'Share with expert', footer:'AI for Health & Agriculture' },
+    or: { offline:'ଅଫଲାଇନ୍', heroEyebrow:'AI ଦ୍ୱାରା ଧାନ ଓ ଚର୍ମ ରୋଗ ଚିହ୍ନଟ', heroTitle:'ଧାନ ଓ ଚର୍ମ ରୋଗ ଚିହ୍ନଟ', paddyTitle:'ଧାନ ରୋଗ ଚିହ୍ନଟ', skinTitle:'ଚର୍ମ ରୋଗ ଚିହ୍ନଟ', scanHintPaddy:'ଗୋଟିଏ ପତ୍ର, ଫ୍ରେମ୍ ଭରନ୍ତୁ', scanHintSkin:'ଗୋଟିଏ ସ୍ଥାନ, ଫ୍ରେମ୍ ଭରନ୍ତୁ', emptyResult:'ଆପଣଙ୍କ ଫଳାଫଳ ଏଠାରେ ଦେଖାଯିବ', goodLight:'ଭଲ ଆଲୋକ', holdSteady:'ଫୋନ୍ ସ୍ଥିର ରଖନ୍ତୁ', camera:'କ୍ୟାମେରା', analyze:'ଚିହ୍ନଟ କରନ୍ତୁ', retake:'ପୁନର୍ବାର ଫଟୋ ନିଅନ୍ତୁ', diagnosis:'ରୋଗ ନିର୍ଣ୍ଣୟ', sure:'ନିଶ୍ଚିତ', reliable:'ବହୁତ ଭରସାଯୋଗ୍ୟ ଫଳାଫଳ', listen:'ଶୁଣନ୍ତୁ', caution:'ଏହା AI ର ପରାମର୍ଶ, ନିଦାନ ନୁହେଁ। ଚିକିତ୍ସା ପୂର୍ବରୁ ବିଶେଷଜ୍ଞଙ୍କ ସହ ପରାମର୍ଶ କରନ୍ତୁ।', share:'ସେୟାର କରନ୍ତୁ', footer:'ସ୍ୱାସ୍ଥ୍ୟ ଓ କୃଷି ପାଇଁ AI' },
+    hi: { offline:'ऑफ़लाइन', heroEyebrow:'AI से धान और त्वचा रोग की पहचान', heroTitle:'एक फ़ोटो, सही सलाह', paddyTitle:'धान की जाँच', skinTitle:'त्वचा की जाँच', scanHintPaddy:'एक पत्ता, पूरा फ़्रेम', scanHintSkin:'एक हिस्सा, पूरा फ़्रेम', emptyResult:'आपका नतीजा यहाँ दिखेगा', goodLight:'अच्छी रोशनी', holdSteady:'फ़ोन स्थिर रखें', camera:'कैमरा', analyze:'जाँच करें', retake:'दोबारा फ़ोटो लें', diagnosis:'निदान', sure:'भरोसा', reliable:'भरोसेमंद नतीजा', listen:'सुनें', caution:'यह AI का सुझाव है, निदान नहीं। इलाज से पहले विशेषज्ञ से पुष्टि करें।', share:'विशेषज्ञ को भेजें', footer:'स्वास्थ्य और कृषि के लिए AI' },
+  };
   const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
-  const store = { get: (k, d) => { try { return localStorage.getItem(k) ?? d; } catch { return d; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let lang = store.get('gramai.lang', null), mode = 'paddy', photo = null, current = 'home';
-  let history = JSON.parse(store.get('gramai.history', '[]'));
-  const tt = (k) => (T[lang]?.[k]) || T.en[k] || '';
+  const saved = (() => { try { return localStorage.getItem('gramai.lang'); } catch { return null; } })();
 
   function setLang(code) {
-    const L = LANGS.find(l => l.code === code) || LANGS[0]; lang = L.code;
+    const L = LANGS.find(l => l.code === code) || LANGS[0];
+    const t = L.ui ? T[L.code] : T.en;
     document.documentElement.lang = L.code;
-    $$('[data-i18n]').forEach(el => { el.textContent = tt(el.dataset.i18n); });
+    $$('[data-i18n]').forEach(el => { el.textContent = t[el.dataset.i18n] ?? T.en[el.dataset.i18n]; });
     $$('.lang').forEach(b => b.setAttribute('aria-checked', b.dataset.code === L.code));
-    const note = $('#pending'); note.hidden = L.ui && !L.mt;
-    note.querySelector('span').textContent = L.name + (L.mt ? ': machine translation, not yet checked by a native speaker.' : ': translation is being prepared. Showing English for now.');
-    const voice = ['or', 'en', 'hi'].includes(L.code); $('#listen').hidden = !voice; $('#listen2').hidden = !voice;
-    store.set('gramai.lang', L.code); renderHistory();
+    const note = $('#pending');
+    note.hidden = L.ui;
+    note.querySelector('span').textContent = L.name + ': translation is being prepared. Showing English for now.';
+    // Hide Listen where no voice exists (Santali, Ho).
+    $('#listen').hidden = !['or', 'en', 'hi'].includes(L.code);
+    try { localStorage.setItem('gramai.lang', L.code); } catch {}
   }
 
-  const screens = ['home', 'checking', 'result', 'retake', 'expert', 'history', 'settings'];
-  function go(name) {
-    current = name;
-    screens.forEach(s => $('#s-' + s).hidden = s !== name);
-    const tab = ['home', 'history', 'settings'].includes(name) ? name : 'home';
-    $$('.tabbar button').forEach(b => b.dataset.go === tab ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
-    scrollTo({ top: 0, behavior: 'auto' });
-  }
-  $$('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go));
-
-  // language picker (settings + welcome)
   $('#langs').innerHTML = LANGS.map(l => `<button class="lang" role="radio" data-code="${l.code}" aria-checked="false">${l.name}</button>`).join('');
   $$('.lang').forEach(b => b.onclick = () => setLang(b.dataset.code));
-  $('#pick-lang').innerHTML = LANGS.map(l => `<button data-code="${l.code}">${l.name}${l.mt ? '<small>machine draft</small>' : l.ui ? '' : '<small>English for now</small>'}</button>`).join('');
-  $$('#pick-lang button').forEach(b => b.onclick = () => { setLang(b.dataset.code); $('#welcome').close(); });
 
-  // mode + photo
   $$('.mode').forEach(b => b.onclick = () => {
-    mode = b.dataset.mode; $$('.mode').forEach(x => x.setAttribute('aria-pressed', x === b));
-    const h = $('#hint'); if (h) { h.dataset.i18n = mode === 'skin' ? 'scanHintSkin' : 'scanHintPaddy'; h.textContent = tt(h.dataset.i18n); }
+    $$('.mode').forEach(x => x.setAttribute('aria-pressed', x === b));
+    const h = $('#hint'); if (h) { h.dataset.i18n = b.dataset.mode === 'skin' ? 'scanHintSkin' : 'scanHintPaddy'; setLang(document.documentElement.lang); }
   });
-  const pickFile = () => $('#file').click();
-  $('#pick').onclick = pickFile; $('#gallery').onclick = () => { $('#file').removeAttribute('capture'); pickFile(); }; $('#gallery2').onclick = () => { go('home'); $('#gallery').click(); };
+  $('#analyze').onclick = () => { $('#empty').hidden = true; $('#result').hidden = false; $('#result').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  $('#pick').onclick = () => $('#file').click();
   $('#file').onchange = (e) => {
-    const f = e.target.files[0]; if (!f) return; photo = URL.createObjectURL(f);
-    $('#finder').innerHTML = '<img alt="" src="' + photo + '">'; $('#pick').hidden = true; $('#analyze').hidden = false;
+    const f = e.target.files[0]; if (!f) return;
+    $('#finder').innerHTML = '<img alt="Selected photo" src="' + URL.createObjectURL(f) + '">';
+    $('#pick').hidden = true; $('#analyze').hidden = false; $('#again').hidden = false;
   };
-
-  // advice tabs (English demo content)
-  const ADV = [
-    ['Remove badly infected leaves and keep the field clean.', 'Ask your agriculture officer before using any spray.'],
-    ['Keep water and fertiliser balanced; weak plants get the disease more.', 'Avoid leaving the field very dry or waterlogged.'],
-    ['Ask your agriculture officer or KVK which product is right for your field.'],
-    ['Use healthy seed and clean the field after harvest.', 'Check leaves once a week.']];
-  function advice(i) {
-    $$('#advtabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.t == i));
-    $('#advbody').innerHTML = ADV[i].map((t, n) => `<div class="card num"><i>${n + 1}</i><div>${t}</div></div>`).join('');
-  }
-  $$('#advtabs button').forEach(b => b.onclick = () => advice(b.dataset.t));
-  $('#seefull').onclick = () => { $('#advice').hidden = !$('#advice').hidden; advice(0); };
-
-  // history
-  const fmt = (t) => new Date(t).toLocaleString(lang === 'or' ? 'en-IN' : lang, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-  function row(h) {
-    const label = { ok: tt('resultStatus'), warn: tt('retakeStatus'), bad: tt('expertStatus') }[h.k];
-    return `<div class="card rowcard"><div class="thumb">${h.img ? `<img alt="" src="${h.img}">` : (h.m === 'skin' ? '🧑‍⚕️' : '🌾')}</div><div><b>${h.title}</b><small>${fmt(h.t)}${h.p ? ' · ' + h.p + '% ' + tt('sureSuffix') : ''}</small></div><span class="pill st ${h.k}">${label}</span></div>`;
-  }
-  function renderHistory() {
-    $('#recent').innerHTML = history.slice(0, 3).map(row).join('') || `<p class="muted">${tt('noHistory')}</p>`;
-    $('#hlist').innerHTML = history.map(row).join('') || `<p class="muted">${tt('noHistory')}</p>`;
-    $('#clear').hidden = !history.length;
-  }
-  function save(entry) { history.unshift(entry); history = history.slice(0, 30); store.set('gramai.history', JSON.stringify(history)); renderHistory(); }
-  $('#clear').onclick = () => { history = []; store.set('gramai.history', '[]'); renderHistory(); };
-
-  // analyze flow
-  $('#analyze').onclick = async () => {
-    $('#scanbox').innerHTML = photo ? `<img alt="" src="${photo}">` : '<span>🍃</span>';
-    go('checking'); const li = $$('#steps li'); li.forEach(x => x.className = '');
-    for (const x of li) { x.className = 'now'; x.querySelector('.dot').textContent = ''; await new Promise(r => setTimeout(r, reduce ? 0 : 700)); x.className = 'done'; x.querySelector('.dot').textContent = '✓'; }
-    const out = $('#outcome').value;
-    if (out === 'retake') { save({ title: tt('retakeTitle'), p: 0, k: 'warn', t: Date.now(), img: photo, m: mode }); return go('retake'); }
-    if (out === 'expert') { save({ title: tt('unsure'), p: 38, k: 'bad', t: Date.now(), img: photo, m: mode }); $('#expertcase').innerHTML = row(history[0]); return go('expert'); }
-    save({ title: 'Brown Spot', p: 91, k: 'ok', t: Date.now(), img: photo, m: mode });
-    $('#rimg').querySelector('span').style.display = photo ? 'none' : ''; $$('#rimg img').forEach(i => i.remove());
-    if (photo) $('#rimg').insertAdjacentHTML('afterbegin', `<img alt="" src="${photo}">`);
-    $('#ring').style.setProperty('--p', 0); go('result'); requestAnimationFrame(() => requestAnimationFrame(() => $('#ring').style.setProperty('--p', 91)));
-  };
-
-  // theme
-  function setTheme(t) { t === 'auto' ? document.documentElement.removeAttribute('data-theme') : (document.documentElement.dataset.theme = t); store.set('gramai.theme', t); $$('#themeseg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.th === t)); }
-  $$('#themeseg button').forEach(b => b.onclick = () => setTheme(b.dataset.th)); setTheme(store.get('gramai.theme', 'auto'));
-
-  const firstVisit = !lang;
-  setLang(lang || 'or'); advice(0); go('home');
-  if (firstVisit && $('#welcome').showModal) $('#welcome').showModal();
+  $('#again').onclick = () => $('#file').click();
+  setLang(saved || 'or');
 </script>
 </body>
 </html>
